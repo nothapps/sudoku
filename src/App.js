@@ -1,5 +1,6 @@
 import './App.css';
-import { useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import { FaEraser } from "react-icons/fa";
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
@@ -11,6 +12,24 @@ export default function Sudoku() {
         prevSquare.col === col ?
         { row: null, col: null } : { row, col });
   };
+
+  const handleKeyPress = useCallback((event) => {
+    if (!selectedSquare) return;
+
+    const pressedKey = event.key;
+
+    if (pressedKey >= '1' && pressedKey <= '9') {
+      const value = parseInt(pressedKey);
+      fillSquare(selectedSquare, value);
+    } else if (pressedKey === 'Backspace') {
+      fillSquare(selectedSquare, null);
+    }
+  }, [selectedSquare]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  });
 
   function fillSquare(selectedSquare, value) {
     setSquareValues(prevSquares => {
@@ -101,11 +120,20 @@ function NumbersRow({ fillSquare, selectedSquare }) {
           fillSquare={fillSquare}
           selectedSquare={selectedSquare} />
       ))}
+        <NumberButton value={100} fillSquare={fillSquare} selectedSquare={selectedSquare} />
     </div>
   );
 }
 
 function NumberButton({ value, fillSquare, selectedSquare }) {
+  if (value === 100) {
+    return (
+      <button className='number-button' onClick={() => fillSquare(selectedSquare, null)}>
+        <FaEraser />
+      </button>
+    );
+  }
+
   return (
     <div>
       <button className='number-button' onClick={() => fillSquare(selectedSquare, value)}>
@@ -116,7 +144,6 @@ function NumberButton({ value, fillSquare, selectedSquare }) {
 }
 
 function SudokuBoard({ selectedSquare, squareValues, selectSquare }) {
-
   return (
     <div className='sudoku-board'>
       {Array(9).fill().map((_, row) => (

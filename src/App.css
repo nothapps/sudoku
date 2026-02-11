@@ -54,6 +54,7 @@ body {
   margin: 20px;
   height: 80%;
   max-height: 90vw;
+  border-radius: 30px;
   border: 8px solid black;
   box-sizing: content-box;
 }
@@ -70,19 +71,23 @@ body {
   border-bottom: none;
 }
 
-.sudoku-square {
+button.sudoku-square {
+  outline: none;
+  border: none;
   aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: midnightblue;
-  font-size: calc(2vh + 1vmin);
+  color: purple;
+  font-size: calc(2vh + 2vmin);
+  border-right: 3px solid black;
+  border-bottom: 3px solid black;
 }
 
-button.sudoku-square {
-  border: 2px solid pink;
-  background: blue;
-}
+.sudoku-row:first-child .sudoku-square:first-child { border-top-left-radius: 20px; }
+.sudoku-row:first-child .sudoku-square:nth-child(9) { border-top-right-radius: 20px; }
+.sudoku-row:last-child .sudoku-square:first-child { border-bottom-left-radius: 20px; }
+.sudoku-row:last-child .sudoku-square:nth-child(9){ border-bottom-right-radius:20px; }
 
 .sudoku-square:nth-child(3n) {
   border-right: 6px solid black;
@@ -93,10 +98,10 @@ button.sudoku-square {
 }
 
 .sudoku-square.active {
-  background: #6d224e;
+  background: yellow;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .sudoku {
     flex-direction: column;
   }
