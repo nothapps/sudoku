@@ -1,0 +1,64 @@
+.sudoku-board {
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(9, 1fr);
+    margin: 20px;
+    height: 80%;
+    max-height: 90vw;
+    border-radius: 30px;
+    border: 8px solid black;
+    box-sizing: content-box;
+}
+
+.sudoku-row {
+    display: contents;
+}
+
+.sudoku-row:nth-child(3n) .sudoku-square {
+    border-bottom: 6px solid black;
+}
+
+.sudoku-row:nth-child(3n):nth-child(9) .sudoku-square {
+    border-bottom: none;
+}
+
+button.sudoku-square {
+    outline: none;
+    border: none;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: purple;
+    font-size: calc(2vh + 2vmin);
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+.sudoku-row:first-child .sudoku-square:first-child {
+    border-top-left-radius: 20px;
+}
+
+.sudoku-row:first-child .sudoku-square:nth-child(9) {
+    border-top-right-radius: 20px;
+}
+
+.sudoku-row:last-child .sudoku-square:first-child {
+    border-bottom-left-radius: 20px;
+}
+
+.sudoku-row:last-child .sudoku-square:nth-child(9) {
+    border-bottom-right-radius: 20px;
+}
+
+.sudoku-square:nth-child(3n) {
+    border-right: 6px solid black;
+}
+
+.sudoku-square:nth-child(3n):nth-child(9) {
+    border-right: none;
+}
+
+.sudoku-square.active {
+    background: blueviolet;
+}

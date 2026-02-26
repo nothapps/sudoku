@@ -1,10 +1,18 @@
-import './App.css';
+import './css/main.css';
+import './css/sudoku-board.css';
+import './css/settings-dialog.css';
 import { useCallback, useState, useEffect } from 'react';
 import { FaEraser } from "react-icons/fa";
+import generateSudokuBoard, { solveSudoku } from './components/sudoku_algorithm.js';
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
   const [squareValues, setSquareValues] = useState(Array(9).fill(null).map(() => Array(9).fill(null)));
+
+  useEffect(() => {
+    const newBoard = generateSudokuBoard();
+    setSquareValues(newBoard);
+  }, []);
 
   const selectSquare = (row, col) => {
     setSelectedSquare(prevSquare =>
@@ -36,45 +44,14 @@ export default function Sudoku() {
       const newSquares = [...prevSquares];
       newSquares[selectedSquare.row] = [...prevSquares[selectedSquare.row]];
       newSquares[selectedSquare.row][selectedSquare.col] = value;
-      checkRow(newSquares);
-      checkColumn(newSquares);
-      checkBlock(newSquares);
       return newSquares;
     })
-  }
-
-  function checkRow(squareValues) {
-    squareValues.forEach((row, rowIndex) => {
-      let duplicateNumbers = row.filter((value, index) => value !== null && row.indexOf(value) !== index);
-      if (duplicateNumbers.length > 0) console.log(`row ${rowIndex} duplicates:`, duplicateNumbers);
-    }
-    )
-  }
-
-  function checkColumn(squareValues) {
-    for (let i = 0; i < 9; i++) {
-      let currentColumn = squareValues.map(row => row[i]);
-      let duplicateNumbers = currentColumn.filter((value, index) => value !== null && currentColumn.indexOf(value) !== index);
-      if (duplicateNumbers.length > 0) console.log(`column ${i} duplicates:`, duplicateNumbers);
-    }
-  }
-
-  function checkBlock(squareValues) {
-    for (let row = 0; row < 9; row += 3) {
-      for (let col = 0; col < 9; col += 3) {
-        const threeRows = squareValues.slice(row, row + 3);
-        let currentBlock = threeRows.map(row => row.slice(col, col + 3));
-        currentBlock = currentBlock[0].concat(currentBlock[1], currentBlock[2]);
-        let duplicateNumbers = currentBlock.filter((value, index) => value !== null && currentBlock.indexOf(value) !== index);
-        if (duplicateNumbers.length > 0) console.log(`block  duplicates:`, duplicateNumbers);
-      }
-    }
   }
 
   return (
     <>
       <div className='sudoku'>
-        <Sidebar />
+        <Sidebar setSquareValues={setSquareValues} />
         <div className='main-space'>
           <SudokuBoard
             selectedSquare={selectedSquare}
@@ -90,14 +67,36 @@ export default function Sudoku() {
   );
 }
 
-function Sidebar() {
+function Sidebar({ setSquareValues }) {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   return (
     <div className='sidebar'>
       <header> SUDOKU </header>
       <SidebarButton value='restart' />
-      <SidebarButton value='new game' />
+      <button onClick={() => {
+        const newBoard = generateSudokuBoard();
+        setSquareValues(newBoard);
+      }}>
+        {'new game'}
+      </button>
       <SidebarButton value='hint' />
-      <SidebarButton value='settings' />
+      <div>
+        <button onClick={() => setIsSettingsOpen(true)}>
+          {'settings'}
+        </button>
+        {
+          isSettingsOpen && (
+            <div className='overlay'>
+              <div className='dialog'>
+                <h2>Settings</h2>
+                <p>some settings</p>
+                <button onClick={() => setIsSettingsOpen(false)}>Close</button>
+              </div>
+            </div>
+          )
+        }
+      </div>
     </div>
   );
 }
@@ -107,6 +106,7 @@ function SidebarButton({ value }) {
     <button>
       {value}
     </button>
+
   );
 }
 
@@ -120,7 +120,7 @@ function NumbersRow({ fillSquare, selectedSquare }) {
           fillSquare={fillSquare}
           selectedSquare={selectedSquare} />
       ))}
-        <NumberButton value={100} fillSquare={fillSquare} selectedSquare={selectedSquare} />
+      <NumberButton value={100} fillSquare={fillSquare} selectedSquare={selectedSquare} />
     </div>
   );
 }
