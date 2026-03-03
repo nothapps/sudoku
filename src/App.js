@@ -3,15 +3,19 @@ import './css/sudoku-board.css';
 import './css/settings-dialog.css';
 import { useCallback, useState, useEffect } from 'react';
 import { FaEraser } from "react-icons/fa";
-import generateSudokuBoard, { solveSudoku } from './components/sudoku_algorithm.js';
+import generateSudokuBoard, { isMoveValid, isSquareEmpty} from './components/sudoku_algorithm.js';
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
   const [squareValues, setSquareValues] = useState(Array(9).fill(null).map(() => Array(9).fill(null)));
+  const [originalBoard, setOriginalBoard] = useState(Array(9).fill(null).map(() => Array(9).fill(null)));
+  const [hintSquares, setHintSquares] = useState(Array(9).fill(null).map(() => Array(9).fill(null)));
 
   useEffect(() => {
-    const newBoard = generateSudokuBoard();
+    const [newBoard, removedSquares] = generateSudokuBoard();
     setSquareValues(newBoard);
+    setOriginalBoard(newBoard);
+    setHintSquares(removedSquares);
   }, []);
 
   const selectSquare = (row, col) => {
@@ -51,12 +55,20 @@ export default function Sudoku() {
   return (
     <>
       <div className='sudoku'>
-        <Sidebar setSquareValues={setSquareValues} />
+        <Sidebar setSquareValues={setSquareValues}
+        setHintSquares={setHintSquares} 
+        setOriginalBoard={setOriginalBoard}  
+        originalBoard={originalBoard}
+        hintSquares={hintSquares}
+        squareValues={squareValues}
+        />
         <div className='main-space'>
           <SudokuBoard
             selectedSquare={selectedSquare}
             squareValues={squareValues}
             selectSquare={selectSquare}
+            originalBoard={originalBoard}
+            hintSquares={hintSquares}
           />
           <NumbersRow fillSquare={fillSquare} selectedSquare={selectedSquare} />
         </div>
@@ -67,20 +79,48 @@ export default function Sudoku() {
   );
 }
 
-function Sidebar({ setSquareValues }) {
+function showHint(squareValues, hintSquares) {
+  //check if any are wrong in a full board
+  if(isSquareEmpty(squareValues)[0] === null) {
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (isMoveValid(squareValues, i, j, squareValues[i][j]) === false) {
+               console.log('hehe');
+            }
+        }
+    }
+  } else { //fill one square
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (hintSquares[i][j] !== null) {
+              squareValues[i][j] = hintSquares[i][j];
+              return;
+            }
+        }
+    }
+  }
+}
+
+function Sidebar({ setSquareValues, setHintSquares, setOriginalBoard, originalBoard, squareValues, hintSquares}) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <div className='sidebar'>
       <header> SUDOKU </header>
-      <SidebarButton value='restart' />
+      <button onClick={() => setSquareValues(originalBoard)}>
+        {'restart'}
+      </button>
       <button onClick={() => {
-        const newBoard = generateSudokuBoard();
+        const [newBoard, removedSquares] = generateSudokuBoard();
         setSquareValues(newBoard);
+        setOriginalBoard(newBoard);
+        setHintSquares(removedSquares);
       }}>
         {'new game'}
       </button>
-      <SidebarButton value='hint' />
+      <button onClick={() => showHint(squareValues, hintSquares)}>
+        {'hint'}
+      </button>
       <div>
         <button onClick={() => setIsSettingsOpen(true)}>
           {'settings'}
@@ -143,17 +183,31 @@ function NumberButton({ value, fillSquare, selectedSquare }) {
   );
 }
 
-function SudokuBoard({ selectedSquare, squareValues, selectSquare }) {
+function SudokuBoard({ selectedSquare, squareValues, selectSquare, originalBoard, hintSquares}) {
   return (
     <div className='sudoku-board'>
       {Array(9).fill().map((_, row) => (
         <div className='sudoku-row' key={row}>
           {Array(9).fill().map((_, col) => {
-            return (
-              <Square key={`${row}-${col}`} value={squareValues[row][col]}
+            if (originalBoard[row][col] !== null) {
+              return (
+              <UntouchableSquare key={`${row}-${col}`} value={squareValues[row][col]}
+          />
+            )
+            } else if (squareValues[row][col] === hintSquares[row][col]){
+              return (
+              <NormalSquare key={`${row}-${col}`} value={squareValues[row][col]}
+                isSquareClicked={selectedSquare.row === row && selectedSquare.col === col}
+                isHint={true}
+                onSquareClick={() => selectSquare(row, col)} />
+            )
+            } else {
+               return (
+              <NormalSquare key={`${row}-${col}`} value={squareValues[row][col]}
                 isSquareClicked={selectedSquare.row === row && selectedSquare.col === col}
                 onSquareClick={() => selectSquare(row, col)} />
             )
+            }
           })}
         </div>
       ))}
@@ -161,9 +215,17 @@ function SudokuBoard({ selectedSquare, squareValues, selectSquare }) {
   );
 }
 
-function Square({ value, isSquareClicked, onSquareClick }) {
+function UntouchableSquare({value}) {
+   return (
+   <button className={'sudoku-square untouchable'}>
+      {value}
+    </button>
+    );
+}
+
+function NormalSquare({ value, isSquareClicked, isHint, onSquareClick }) {
   return (
-    <button className={`sudoku-square ${isSquareClicked ? 'active' : ''}`}
+    <button className={`sudoku-square ${isSquareClicked ? 'active' : ''} ${isHint ? 'hint' : ''}`}
       onClick={onSquareClick}>
       {value}
     </button>

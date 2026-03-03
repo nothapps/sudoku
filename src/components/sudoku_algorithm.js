@@ -1,5 +1,3 @@
-
-
 export default function generateSudokuBoard() {
     let removedSquares = Array(9).fill(null).map(() => Array(9).fill(null));
     let newBoard = Array(9).fill(null).map(() => Array(9).fill(null));
@@ -25,7 +23,7 @@ export default function generateSudokuBoard() {
             }
         }
     }
-    return newBoard;
+    return [newBoard, removedSquares];
 }
 
 export function solveSudoku(squareValues, solutionCount) {
@@ -74,7 +72,7 @@ function shuffleNumbers(array) {
     }
 }
 
-function isMoveValid(squareValues, row, col, newNumber) {
+export function isMoveValid(squareValues, row, col, newNumber) {
     //isRowValid
     for (let i = 0; i < 9; i++) {
         if (squareValues[i][col] === newNumber) return false;
@@ -98,7 +96,7 @@ function isMoveValid(squareValues, row, col, newNumber) {
     return true;
 }
 
-function isSquareEmpty(squareValues) {
+export function isSquareEmpty(squareValues) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (squareValues[i][j] === null) return [i, j];
@@ -106,4 +104,3 @@ function isSquareEmpty(squareValues) {
     }
     return [null, null];
 }
-
