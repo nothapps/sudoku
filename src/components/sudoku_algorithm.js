@@ -1,6 +1,13 @@
 export default function generateSudokuBoard() {
-    let removedSquares = Array(9).fill(null).map(() => Array(9).fill(null));
-    let newBoard = Array(9).fill(null).map(() => Array(9).fill(null));
+    let newBoard = Array(9).fill(null).map(() =>
+        Array(9).fill(null).map(() => ({
+            value: null,
+            originalValue: null,
+            isOriginal: false,
+            isHint: false,
+            isMistake: false
+        }))
+    );
     fillBoard(newBoard);
 
     // removing squares
@@ -9,43 +16,35 @@ export default function generateSudokuBoard() {
         const row = Math.floor(Math.random() * 9);
         const col = Math.floor(Math.random() * 9);
 
-        if (newBoard[row][col] != null) {
-            removedSquares[row][col] = newBoard[row][col];
-            newBoard[row][col] = null;
-            const testBoard = newBoard.map(row => row.map(value => value));
+        if (newBoard[row][col].value !== null) {
+            newBoard[row][col].value = null;
+            newBoard[row][col].isOriginal = false;
+            const prevValue = newBoard[row][col].value;
+
+            const testBoard = newBoard.map(row =>
+                row.map(square => ({
+                    value: square.value,
+                    originalValue: square.originalValue,
+                    isOriginal: square.isOriginal,
+                    isHint: square.isHint,
+                    isMistake: square.isMistake
+                }))
+            );
             let solutionCount = [0];
 
             if (solveSudoku(testBoard, solutionCount) === false || solutionCount[0] !== 1) {
-                newBoard[row][col] = removedSquares[row][col];
-                removedSquares[row][col] = null;
+                newBoard[row][col].value = prevValue;
+                newBoard[row][col].isOriginal = true;
             } else {
                 squaresToRemove--;
             }
         }
     }
-    return [newBoard, removedSquares];
+    return newBoard;
 }
 
-export function solveSudoku(squareValues, solutionCount) {
-    const emptySquare = isSquareEmpty(squareValues);
-    if (emptySquare[0] === null) { //full board
-        solutionCount[0]++;
-        return solutionCount[0] <= 2;
-    }
-    const [row, col] = emptySquare;
-    for (let i = 1; i <= 9; i++) {
-        if (isMoveValid(squareValues, row, col, i)) {
-            squareValues[row][col] = i;
-            if (solveSudoku(squareValues, solutionCount)) return true;
-            squareValues[row][col] = null; //backtracking
-        }
-    }
-    return false;
-}
-
-
-function fillBoard(squareValues) {
-    const emptySquare = isSquareEmpty(squareValues);
+function fillBoard(sudokuBoard) {
+    const emptySquare = isSquareEmpty(sudokuBoard);
     if (emptySquare[0] === null) return true; //full board
     const [row, col] = emptySquare;
 
@@ -53,10 +52,15 @@ function fillBoard(squareValues) {
     shuffleNumbers(numbers);
 
     for (let num of numbers) {
-        if (isMoveValid(squareValues, row, col, num)) {
-            squareValues[row][col] = num;
-            if (fillBoard(squareValues)) return true;
-            squareValues[row][col] = null; //backtracking
+        if (isMoveValid(sudokuBoard, row, col, num)) {
+            sudokuBoard[row][col].value = num;
+            sudokuBoard[row][col].originalValue = num;
+            sudokuBoard[row][col].isOriginal = true;
+            if (fillBoard(sudokuBoard)) return true;
+            //backtracking
+            sudokuBoard[row][col].value = null;
+            sudokuBoard[row][col].originalValue = null;
+            sudokuBoard[row][col].isOriginal = false;
         }
     }
     return false;
@@ -72,34 +76,52 @@ function shuffleNumbers(array) {
     }
 }
 
-export function isMoveValid(squareValues, row, col, newNumber) {
+export function solveSudoku(sudokuBoard, solutionCount) {
+    const emptySquare = isSquareEmpty(sudokuBoard);
+    if (emptySquare[0] === null) { //full board
+        solutionCount[0]++;
+        return solutionCount[0] <= 2;
+    }
+    const [row, col] = emptySquare;
+    for (let i = 1; i <= 9; i++) {
+        if (isMoveValid(sudokuBoard, row, col, i)) {
+            sudokuBoard[row][col].value = i;
+            if (solveSudoku(sudokuBoard, solutionCount)) return true;
+            sudokuBoard[row][col].value = null; //backtracking
+        }
+    }
+    return false;
+}
+
+export function isMoveValid(sudokuBoard, row, col, newNumber) {
     //isRowValid
     for (let i = 0; i < 9; i++) {
-        if (squareValues[i][col] === newNumber) return false;
+        if (i !== row && sudokuBoard[i][col].value === newNumber) return false;
     }
 
-    //isColumnValid
+    // isColumnValid
     for (let i = 0; i < 9; i++) {
-        if (squareValues[row][i] === newNumber) return false;
+        if (i !== col && sudokuBoard[row][i].value === newNumber) return false;
     }
 
     //isBlockValid
     const blockRow = Math.floor(row / 3) * 3;
     const blockCol = Math.floor(col / 3) * 3;
 
+
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            if (squareValues[blockRow + i][blockCol + j] === newNumber) return false;
+            if (blockRow + i !== row && blockRow + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return false;
         }
     }
 
     return true;
 }
 
-export function isSquareEmpty(squareValues) {
+export function isSquareEmpty(sudokuBoard) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            if (squareValues[i][j] === null) return [i, j];
+            if (sudokuBoard[i][j].value === null) return [i, j];
         }
     }
     return [null, null];

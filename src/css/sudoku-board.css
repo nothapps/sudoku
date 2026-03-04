@@ -37,9 +37,14 @@ button.sudoku-square {
 
 .sudoku-square.untouchable {
     color: black;
+    background: rgb(204, 204, 204);
 }
 
 .sudoku-square.hint {
+    color: blue;
+}
+
+.sudoku-square.mistake {
     color: red;
 }
 
