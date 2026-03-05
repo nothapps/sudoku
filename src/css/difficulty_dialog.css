@@ -11,10 +11,17 @@
     z-index: 1000;
 }
 
-.dialog {
+.difficulty-dialog {
     background: plum;
     padding: 50px;
     position: fixed;
     z-index: 1001;
     border-radius: 15px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.difficulty-button {
+    margin: 10px;
 }

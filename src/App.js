@@ -1,6 +1,6 @@
 import './css/main.css';
-import './css/sudoku-board.css';
-import './css/settings-dialog.css';
+import './css/sudoku_board.css';
+import './css/difficulty_dialog.css';
 import { useCallback, useState, useEffect } from 'react';
 import NumbersRow from './components/numbers_row';
 import Sidebar from './components/sidebar';
@@ -20,12 +20,14 @@ export default function Sudoku() {
       }))
     )
   );
+  const [squaresToRemove, setSquaresToRemove] = useState(0);
+  const [showDifficulty, setShowDifficulty] = useState(true);
 
   //generate sudoku board at the beginning
   useEffect(() => {
-    const newBoard = generateSudokuBoard();
+    const newBoard = generateSudokuBoard(squaresToRemove);
     setSudokuBoard(newBoard);
-  }, []);
+  }, [squaresToRemove]);
 
   //selecting and filling a square
   const selectSquare = (row, col) => {
@@ -58,7 +60,8 @@ export default function Sudoku() {
       const newBoard = prevBoard.map(row => ([...row]));
       newBoard[selectedSquare.row][selectedSquare.col] = {
         ...newBoard[selectedSquare.row][selectedSquare.col],
-        value: value
+        value: value,
+        isMistake: false
       };
       return newBoard;
     });
@@ -66,10 +69,36 @@ export default function Sudoku() {
 
   return (
     <>
+      {showDifficulty && <div className='overlay'>
+        <div className='difficulty-dialog'>
+          <h2>Choose difficulty level:</h2>
+          <button className='difficulty-button'
+            onClick={() => {
+              setSquaresToRemove(45);
+              setShowDifficulty(false);
+            }}>
+            Easy
+          </button>
+          <button className='difficulty-button'
+            onClick={() => {
+              setSquaresToRemove(55);
+              setShowDifficulty(false);
+            }}>
+            Medium
+          </button>
+          <button className='difficulty-button' onClick={() => {
+            setSquaresToRemove(64);
+            setShowDifficulty(false);
+          }}>
+            Hard
+          </button>
+        </div>
+      </div>}
       <div className='sudoku'>
         <Sidebar
           sudokuBoard={sudokuBoard}
           setSudokuBoard={setSudokuBoard}
+          squaresToRemove={squaresToRemove}
         />
         <div className='main-space'>
           <SudokuBoard

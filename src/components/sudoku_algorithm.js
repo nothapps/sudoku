@@ -1,4 +1,4 @@
-export default function generateSudokuBoard() {
+export default function generateSudokuBoard(squaresToRemove) {
     let newBoard = Array(9).fill(null).map(() =>
         Array(9).fill(null).map(() => ({
             value: null,
@@ -11,7 +11,6 @@ export default function generateSudokuBoard() {
     fillBoard(newBoard);
 
     // removing squares
-    let squaresToRemove = 45;
     while (squaresToRemove > 0) {
         const row = Math.floor(Math.random() * 9);
         const col = Math.floor(Math.random() * 9);

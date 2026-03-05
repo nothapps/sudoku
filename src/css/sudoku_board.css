@@ -3,8 +3,8 @@
     grid-template-rows: repeat(9, 1fr);
     grid-template-columns: repeat(9, 1fr);
     margin: 20px;
-    height: 80%;
-    max-height: 90vw;
+    height: 70%;
+    max-height: 75vw;
     border-radius: 30px;
     border: 8px solid black;
     box-sizing: content-box;
@@ -41,15 +41,30 @@ button.sudoku-square {
 }
 
 .sudoku-square.hint {
-    color: blue;
+    background-color: blue;
+    animation: fadeToWhite 1s ease-in-out forwards;
+}
+
+@keyframes fadeToWhite {
+    to {
+        background-color: transparent;
+    }
 }
 
 .sudoku-square.mistake {
-    color: red;
+    background-color: red;
+    animation: fadeToRed 1s ease-in-out forwards;
+}
+
+@keyframes fadeToRed {
+    to {
+        color: red;
+        background-color: rgb(247, 158, 158);
+    }
 }
 
 .sudoku-square.active {
-    background: grey;
+    background: grey !important;
 }
 
 .sudoku-row:first-child .sudoku-square:first-child {
