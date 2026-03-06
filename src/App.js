@@ -1,5 +1,4 @@
 import './css/main.css';
-import './css/sidebar.css';
 import './css/sudoku_board.css';
 import './css/difficulty_dialog.css';
 import { useCallback, useState, useEffect } from 'react';
