@@ -6,7 +6,7 @@
     height: 70%;
     max-height: 75vw;
     border-radius: 30px;
-    border: 8px solid black;
+    border: 8px solid #1D201F;
     box-sizing: content-box;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .sudoku-row:nth-child(3n) .sudoku-square {
-    border-bottom: 6px solid black;
+    border-bottom: 6px solid #1D201F;
 }
 
 .sudoku-row:nth-child(3n):nth-child(9) .sudoku-square {
@@ -29,19 +29,19 @@ button.sudoku-square {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: purple;
+    color: #1D201F;
     font-size: calc(2vh + 2vmin);
-    border-right: 3px solid black;
-    border-bottom: 3px solid black;
+    border-right: 3px solid #1D201F;
+    border-bottom: 3px solid #1D201F;
 }
 
 .sudoku-square.untouchable {
-    color: black;
-    background: rgb(204, 204, 204);
+    color: #1D201F;
+    background: #C8AFD4;
 }
 
 .sudoku-square.hint {
-    background-color: blue;
+    background-color: #C1D736;
     animation: fadeToWhite 1s ease-in-out forwards;
 }
 
@@ -52,19 +52,19 @@ button.sudoku-square {
 }
 
 .sudoku-square.mistake {
-    background-color: red;
-    animation: fadeToRed 1s ease-in-out forwards;
+    background: rgb(241, 69, 69);
+    animation: fadeToRed 0.75s ease-in-out forwards;
 }
 
 @keyframes fadeToRed {
     to {
-        color: red;
-        background-color: rgb(247, 158, 158);
+        color: rgb(241, 69, 69);
+        background-color: rgb(245, 177, 177);
     }
 }
 
 .sudoku-square.active {
-    background: grey !important;
+    background: #D5E477 !important;
 }
 
 .sudoku-row:first-child .sudoku-square:first-child {
@@ -84,7 +84,7 @@ button.sudoku-square {
 }
 
 .sudoku-square:nth-child(3n) {
-    border-right: 6px solid black;
+    border-right: 6px solid #1D201F;
 }
 
 .sudoku-square:nth-child(3n):nth-child(9) {

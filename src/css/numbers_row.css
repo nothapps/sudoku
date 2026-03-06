@@ -1,0 +1,16 @@
+.numbers-row {
+    background-color: #C1D736;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.number-button {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 40px;
+    margin: 2.5px;
+    font-size: calc(1.5vh + 1vmin);
+    background: #faf5ec;
+}
