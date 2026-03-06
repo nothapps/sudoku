@@ -1,4 +1,5 @@
 import './css/main.css';
+import './css/sidebar.css';
 import './css/sudoku_board.css';
 import './css/difficulty_dialog.css';
 import { useCallback, useState, useEffect } from 'react';
@@ -25,6 +26,7 @@ export default function Sudoku() {
 
   //generate sudoku board at the beginning
   useEffect(() => {
+    if (squaresToRemove === 0) return;
     const newBoard = generateSudokuBoard(squaresToRemove);
     setSudokuBoard(newBoard);
   }, [squaresToRemove]);
@@ -56,6 +58,8 @@ export default function Sudoku() {
   });
 
   function fillSquare(selectedSquare, value) {
+    if (selectedSquare.row === null || !selectedSquare.col === null) return;
+
     setSudokuBoard(prevBoard => {
       const newBoard = prevBoard.map(row => ([...row]));
       newBoard[selectedSquare.row][selectedSquare.col] = {

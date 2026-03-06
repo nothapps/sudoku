@@ -8,7 +8,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
     return (
         <div className='sidebar'>
             <header> SUDOKU </header>
-            <button
+            <button className="sidebar-button"
                 onClick={() => {
                     const originalBoard = sudokuBoard.map(row =>
                         row.map(square => ({
@@ -17,7 +17,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                             originalValue: square.originalValue,
                             isOriginal: square.isOriginal,
                             isHint: square.isHint,
-                            isMistake: square.isMistake
+                            isMistake: false
                         }))
                     );
                     setSudokuBoard(originalBoard);
@@ -25,16 +25,20 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
             >
                 {'restart'}
             </button>
-            <button onClick={() => {
-                const newBoard = generateSudokuBoard(squaresToRemove);
-                setSudokuBoard(newBoard);
-            }}>
+            <button className="sidebar-button"
+                onClick={() => {
+                    const newBoard = generateSudokuBoard(squaresToRemove);
+                    setSudokuBoard(newBoard);
+                }}>
                 {'new game'}
             </button>
-            <button onClick={() => showHint(sudokuBoard, setSudokuBoard)}>
+            <button
+                className="sidebar-button"
+                onClick={() => showHint(sudokuBoard, setSudokuBoard)}>
                 {'hint'}
             </button>
-            <button onClick={() => setIsSettingsOpen(true)}>
+            <button className="sidebar-button"
+                onClick={() => setIsSettingsOpen(true)}>
                 {'settings'}
             </button>
             {/* <div>
