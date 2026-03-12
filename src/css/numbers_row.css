@@ -1,16 +1,29 @@
 .numbers-row {
-    background-color: #C1D736;
-    border-radius: 10px;
+    background-color: #AE8DC0;
+    border-radius: 20px;
     display: flex;
     flex-direction: row;
     padding: 15px;
+    border: 6px solid #3C1642;
 }
 
 .number-button {
+    font-family: "Sour Gummy", sans-serif;
     aspect-ratio: 1;
     border-radius: 50%;
     width: 40px;
     margin: 2.5px;
     font-size: calc(1.5vh + 1vmin);
     background: #faf5ec;
+    border: 3px solid #3C1642;
+}
+
+.number-button:hover {
+    background-color: #DBE788;
+}
+
+.number-button:active {
+    vertical-align: top;
+    transform: scale(0.95);
+    transition: transform 0.2s;
 }
