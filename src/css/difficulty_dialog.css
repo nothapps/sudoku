@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
 .overlay {
     background: rgba(0, 0, 0, 0.5);
     display: flex;
@@ -12,16 +14,54 @@
 }
 
 .difficulty-dialog {
-    background: plum;
+    font-family: "Sour Gummy", sans-serif;
+    /* font-size: 15px; */
+    font-size: calc(1.5vh + 2vmin);
+    color: #C1D736;
+    background: #AE8DC0;
+    border: 10px solid #3C1642;
     padding: 50px;
     position: fixed;
     z-index: 1001;
-    border-radius: 15px;
+    translate: 130px;
+    border-radius: 30px;
     align-items: center;
     display: flex;
     flex-direction: column;
+    text-shadow:
+        -2px -2px 0 #3C1642,
+        2px -2px 0 #3C1642,
+        -2px 2px 0 #3C1642,
+        2px 2px 0 #3C1642,
+        -3px 0px 0 #3C1642,
+        3px 0px 0 #3C1642,
+        0px -3px 0 #3C1642,
+        0px 3px 0 #3C1642;
+}
+
+@media (max-width: 900px) {
+    .difficulty-dialog {
+        translate: none;
+    }
 }
 
 .difficulty-button {
-    margin: 10px;
+    font-family: "Sour Gummy", sans-serif;
+    border-radius: 20px;
+    border: 3px solid #3C1642;
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.difficulty-button:hover {
+    background-color: #e3ccee;
+}
+
+.difficulty-button:active {
+    vertical-align: top;
+    transform: scale(0.95);
+    transition: transform 0.2s;
 }

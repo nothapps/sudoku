@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Viga&display=swap');
+
+.sidebar {
+    font-family: "Cherry Bomb One", system-ui;
+    font-size: 35px;
+    text-align: center;
+    background-color: #AE8DC0;
+    /* background: linear-gradient(170deg, #AE8DC0 0%, #55205e 100%); */
+    border-right: 10px solid #3C1642;
+    color: #C1D736;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    padding: 15px;
+    text-shadow:
+        -2px -2px 0 #3C1642,
+        2px -2px 0 #3C1642,
+        -2px 2px 0 #3C1642,
+        2px 2px 0 #3C1642,
+        -3px 0px 0 #3C1642,
+        3px 0px 0 #3C1642,
+        0px -3px 0 #3C1642,
+        0px 3px 0 #3C1642;
+}
+
+.sidebar-button {
+    font-family: "Sour Gummy", sans-serif;
+    border-radius: 20px;
+    border: 3px solid #3C1642;
+    margin: 5px;
+    height: 40px;
+}
+
+.sidebar-button:hover {
+    background-color: #e3ccee;
+}
+
+.sidebar-button:active {
+    vertical-align: top;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        font-size: 30px;
+        order: 1;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        border-right: none;
+        border-bottom: 8px solid #3C1642;
+    }
+
+    .sidebar header {
+        text-align: center;
+        margin-top: -5px;
+    }
+
+    .sidebar-button {
+        min-width: 70px;
+    }
+}
+
+.dropdown-settings {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.dropdown-settings.open {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 100px;
+}
+
+.dropdown-button {
+    font-family: "Sour Gummy", sans-serif;
+    border-radius: 20px;
+    border: 3px solid #841a94;
+    margin: 2px;
+    width: 100px;
+}
