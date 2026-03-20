@@ -23,6 +23,7 @@
 }
 
 button.sudoku-square {
+    font-family: "Sour Gummy", sans-serif;
     outline: none;
     border: none;
     aspect-ratio: 1;

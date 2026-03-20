@@ -43,7 +43,7 @@ export default function generateSudokuBoard(squaresToRemove) {
 }
 
 function fillBoard(sudokuBoard) {
-    const emptySquare = isSquareEmpty(sudokuBoard);
+    const emptySquare = isAnySquareEmpty(sudokuBoard);
     if (emptySquare[0] === null) return true; //full board
     const [row, col] = emptySquare;
 
@@ -51,7 +51,7 @@ function fillBoard(sudokuBoard) {
     shuffleNumbers(numbers);
 
     for (let num of numbers) {
-        if (isMoveValid(sudokuBoard, row, col, num)) {
+        if (isMoveValid(sudokuBoard, row, col, num)[0] === null) {
             sudokuBoard[row][col].value = num;
             sudokuBoard[row][col].originalValue = num;
             sudokuBoard[row][col].isOriginal = true;
@@ -76,14 +76,14 @@ function shuffleNumbers(array) {
 }
 
 export function solveSudoku(sudokuBoard, solutionCount) {
-    const emptySquare = isSquareEmpty(sudokuBoard);
+    const emptySquare = isAnySquareEmpty(sudokuBoard);
     if (emptySquare[0] === null) { //full board
         solutionCount[0]++;
         return solutionCount[0] <= 2;
     }
     const [row, col] = emptySquare;
     for (let i = 1; i <= 9; i++) {
-        if (isMoveValid(sudokuBoard, row, col, i)) {
+        if (isMoveValid(sudokuBoard, row, col, i)[0] === null) {
             sudokuBoard[row][col].value = i;
             if (solveSudoku(sudokuBoard, solutionCount)) return true;
             sudokuBoard[row][col].value = null; //backtracking
@@ -95,12 +95,12 @@ export function solveSudoku(sudokuBoard, solutionCount) {
 export function isMoveValid(sudokuBoard, row, col, newNumber) {
     //isRowValid
     for (let i = 0; i < 9; i++) {
-        if (i !== row && sudokuBoard[i][col].value === newNumber) return false;
+        if (i !== row && sudokuBoard[i][col].value === newNumber) return [i, col];
     }
 
     // isColumnValid
     for (let i = 0; i < 9; i++) {
-        if (i !== col && sudokuBoard[row][i].value === newNumber) return false;
+        if (i !== col && sudokuBoard[row][i].value === newNumber) return [row, i];
     }
 
     //isBlockValid
@@ -110,14 +110,14 @@ export function isMoveValid(sudokuBoard, row, col, newNumber) {
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            if (blockRow + i !== row && blockRow + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return false;
+            if (blockRow + i !== row && blockCol + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return [blockRow + i, blockCol + j];
         }
     }
 
-    return true;
+    return [null, null];
 }
 
-export function isSquareEmpty(sudokuBoard) {
+export function isAnySquareEmpty(sudokuBoard) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (sudokuBoard[i][j].value === null) return [i, j];

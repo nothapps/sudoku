@@ -47,7 +47,7 @@ export default function Sudoku() {
     if (pressedKey >= '1' && pressedKey <= '9') {
       const value = parseInt(pressedKey);
       fillSquare(selectedSquare, value);
-    } else if (pressedKey === 'Backspace') {
+    } else if (pressedKey === 'Backspace' || pressedKey === 'Delete') {
       fillSquare(selectedSquare, null);
     }
   }, [selectedSquare]);
@@ -73,9 +73,16 @@ export default function Sudoku() {
 
   return (
     <>
-      {showDifficulty && <div className='overlay'>
+      <div className='sudoku'>
+        <Sidebar
+          sudokuBoard={sudokuBoard}
+          setSudokuBoard={setSudokuBoard}
+          squaresToRemove={squaresToRemove}
+        />
+        <div className='main-space'>
+          {showDifficulty && <div className='overlay'>
         <div className='difficulty-dialog'>
-          <h2>Choose difficulty level:</h2>
+          <h2>Choose your difficulty level:</h2>
           <button className='difficulty-button'
             onClick={() => {
               setSquaresToRemove(45);
@@ -97,14 +104,7 @@ export default function Sudoku() {
             Hard
           </button>
         </div>
-      </div>}
-      <div className='sudoku'>
-        <Sidebar
-          sudokuBoard={sudokuBoard}
-          setSudokuBoard={setSudokuBoard}
-          squaresToRemove={squaresToRemove}
-        />
-        <div className='main-space'>
+      </div>} 
           <SudokuBoard
             sudokuBoard={sudokuBoard}
             selectedSquare={selectedSquare}

@@ -25,9 +25,10 @@
 
 .sidebar-button {
     font-family: "Sour Gummy", sans-serif;
+    font-size: calc(1vh + 0.6vmin);
     border-radius: 20px;
     border: 3px solid #3C1642;
-    margin: 5px;
+    margin-top: 10px;
     height: 40px;
 }
 
@@ -69,24 +70,52 @@
     flex: 1;
     flex-direction: column;
     align-items: center;
-    transform-origin: top;
+    transform-origin: top; 
     transform: scaleY(0);
-    opacity: 0;
     transition: all 0.4s ease-in-out;
+    background: #3C1642;
+    border-radius: 0 0 20px 20px;
     max-height: 0;
+    max-width: 85%;
+    margin-left: 8%;
+    margin-top: -1%;
     overflow: hidden;
+    
 }
 
 .dropdown-settings.open {
     transform: scaleY(1);
     opacity: 1;
-    max-height: 100px;
+    max-height: 130px;
 }
 
 .dropdown-button {
     font-family: "Sour Gummy", sans-serif;
     border-radius: 20px;
     border: 3px solid #841a94;
-    margin: 2px;
+    margin: 5px;
     width: 100px;
+}
+
+@media (max-width: 900px) {
+    .dropdown-settings {
+        position: absolute;
+        top: 10%;
+        width: 100%;
+        transform: none;
+        overflow: hidden;
+        transition: all 0.4s ease-in-out;
+        z-index: 1000;
+        margin-left: 0;
+        margin-top: 0;
+    }
+    
+    .dropdown-settings.open {
+        max-height: 200px;
+    }
+    
+    .dropdown-button {
+        width: 30%;
+        padding: 2.5px;
+    }
 }
