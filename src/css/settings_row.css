@@ -1,0 +1,64 @@
+.settings-row {
+    font-family: "Sour Gummy", sans-serif;
+    /* font-size: 21px; */
+    font-size: calc(1.8vh + 1vmin);
+    color: #3C1642;
+    margin-top: 15px;
+    gap: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.settings-element {
+    display: flex;
+    flex: 1;
+    text-align: left;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+
+}
+
+.settings-element:nth-child(2) .settings-button {
+    width: 40px;
+    text-align: center;
+}
+
+.settings-element:last-child .settings-button {
+    width: 85px;
+    text-align: center;
+}
+
+
+.settings-button {
+    font-family: "Sour Gummy", sans-serif;
+    font-size: calc(1.75vh + 1vmin);
+    font-weight: 600;
+    text-align: left;
+    margin-left: 5px;
+    padding: 4px;
+    border: none;
+    border-radius: 10px;
+    background: #e6eeb1;
+    color: #C1D736;
+}
+
+@media (max-width: 900px) {
+    .settings-row {
+        font-size: calc(1.5vh + 1vmin);
+    }
+
+    .settings-button {
+        font-size: calc(1.5vh + 1vmin);
+    }
+
+}
+
+.settings-button:hover {
+    color: #8e9e28;
+}
+
+.icons {
+    font-size: calc(1.5vh + 1vmin);
+    margin-right: 5px;
+}

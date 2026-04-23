@@ -5,13 +5,14 @@
     font-size: 35px;
     text-align: center;
     background-color: #AE8DC0;
-    /* background: linear-gradient(170deg, #AE8DC0 0%, #55205e 100%); */
     border-right: 10px solid #3C1642;
     color: #C1D736;
     display: flex;
     flex-direction: column;
     width: 20%;
-    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    gap: 10px;
     text-shadow:
         -2px -2px 0 #3C1642,
         2px -2px 0 #3C1642,
@@ -23,13 +24,29 @@
         0px 3px 0 #3C1642;
 }
 
+.theme-icon {
+    font-size: calc(3vh + 1vmin);
+    align-self: center;
+    margin-top: auto;
+}
+
 .sidebar-button {
     font-family: "Sour Gummy", sans-serif;
-    font-size: calc(1vh + 0.6vmin);
+    font-size: calc(1vh + 0.8vmin);
+    font-weight: 500;
     border-radius: 20px;
     border: 3px solid #3C1642;
-    margin-top: 10px;
     height: 40px;
+}
+
+.wide-screen-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.small-screen-buttons {
+    display: none;
 }
 
 .sidebar-button:hover {
@@ -42,80 +59,107 @@
     transition: transform 0.2s;
 }
 
+.wide-screen-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.small-screen-buttons {
+    display: none;
+}
+
 @media (max-width: 900px) {
     .sidebar {
         font-size: 30px;
         order: 1;
         flex-direction: row;
         justify-content: space-evenly;
-        width: 100%;
-        box-sizing: border-box;
         align-items: center;
+        width: 100%;
+        height: 12.5%;
+        box-sizing: border-box;
         border-right: none;
         border-bottom: 8px solid #3C1642;
+        padding-left: 10px;
+        padding-right: 10px;
+        gap: 5px;
     }
 
     .sidebar header {
         text-align: center;
-        margin-top: -5px;
+        align-self: center;
+        margin-right: 10px;
+        margin-bottom: 2.5px;
     }
 
     .sidebar-button {
+        font-size: calc(1vh + 0.7vmin);
         min-width: 70px;
+        width: calc(15vw + 1.5vmin);
     }
-}
 
-.dropdown-settings {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    align-items: center;
-    transform-origin: top; 
-    transform: scaleY(0);
-    transition: all 0.4s ease-in-out;
-    background: #3C1642;
-    border-radius: 0 0 20px 20px;
-    max-height: 0;
-    max-width: 85%;
-    margin-left: 8%;
-    margin-top: -1%;
-    overflow: hidden;
-    
-}
+    .theme-icon {
+        font-size: calc(2.5vh + 1vmin);
+        margin-top: 0px;
+        align-self: center;
+    }
 
-.dropdown-settings.open {
-    transform: scaleY(1);
-    opacity: 1;
-    max-height: 130px;
+    .wide-screen-buttons {
+        display: none;
+    }
+
+    .small-screen-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
 }
 
 .dropdown-button {
-    font-family: "Sour Gummy", sans-serif;
-    border-radius: 20px;
-    border: 3px solid #841a94;
-    margin: 5px;
-    width: 100px;
+    display: none;
 }
 
 @media (max-width: 900px) {
     .dropdown-settings {
-        position: absolute;
-        top: 10%;
-        width: 100%;
-        transform: none;
-        overflow: hidden;
-        transition: all 0.4s ease-in-out;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: center;
+        align-items: start;
+        background: #3C1642;
+        border-radius: 0 0 20px 20px;
+        height: 0px;
+        width: 70%;
+        top: 12.5%;
         z-index: 1000;
-        margin-left: 0;
-        margin-top: 0;
+        overflow: hidden;
+        position: absolute;
+        transition: all 0.4s ease-in-out;
     }
-    
+
     .dropdown-settings.open {
-        max-height: 200px;
+        transform: scaleY(1);
+        opacity: 1;
+        height: 60px;
     }
-    
+
     .dropdown-button {
+        display: block;
+        font-family: "Sour Gummy", sans-serif;
+        border-radius: 20px;
+        border: 2px solid #AE8DC0;
+        margin: 10px;
         width: 30%;
-        padding: 2.5px;
+        padding: 5px;
+    }
+
+    .dropdown-button:hover {
+        background-color: #e3ccee;
+    }
+
+    .dropdown-button:active {
+        vertical-align: top;
+        transform: scale(0.95);
+        transition: transform 0.2s;
     }
 }

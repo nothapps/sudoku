@@ -51,7 +51,7 @@ function fillBoard(sudokuBoard) {
     shuffleNumbers(numbers);
 
     for (let num of numbers) {
-        if (isMoveValid(sudokuBoard, row, col, num)[0] === null) {
+        if (isMoveValid(sudokuBoard, row, col, num) === true) {
             sudokuBoard[row][col].value = num;
             sudokuBoard[row][col].originalValue = num;
             sudokuBoard[row][col].isOriginal = true;
@@ -83,7 +83,7 @@ export function solveSudoku(sudokuBoard, solutionCount) {
     }
     const [row, col] = emptySquare;
     for (let i = 1; i <= 9; i++) {
-        if (isMoveValid(sudokuBoard, row, col, i)[0] === null) {
+        if (isMoveValid(sudokuBoard, row, col, i) === true) {
             sudokuBoard[row][col].value = i;
             if (solveSudoku(sudokuBoard, solutionCount)) return true;
             sudokuBoard[row][col].value = null; //backtracking
@@ -95,12 +95,12 @@ export function solveSudoku(sudokuBoard, solutionCount) {
 export function isMoveValid(sudokuBoard, row, col, newNumber) {
     //isRowValid
     for (let i = 0; i < 9; i++) {
-        if (i !== row && sudokuBoard[i][col].value === newNumber) return [i, col];
+        if (i !== col && sudokuBoard[row][i].value === newNumber) return false;
     }
 
     // isColumnValid
     for (let i = 0; i < 9; i++) {
-        if (i !== col && sudokuBoard[row][i].value === newNumber) return [row, i];
+        if (i !== row && sudokuBoard[i][col].value === newNumber) return false;
     }
 
     //isBlockValid
@@ -110,11 +110,11 @@ export function isMoveValid(sudokuBoard, row, col, newNumber) {
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            if (blockRow + i !== row && blockCol + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return [blockRow + i, blockCol + j];
+            if (blockRow + i !== row && blockCol + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return false;
         }
     }
 
-    return [null, null];
+    return true;
 }
 
 export function isAnySquareEmpty(sudokuBoard) {
