@@ -24,7 +24,7 @@ export default function Sudoku() {
     )
   );
   const [squaresToRemove, setSquaresToRemove] = useState(0);
-  const [showDifficulty, setShowDifficulty] = useState(true);
+  const [showDifficultyDialog, setShowDifficultyDialog] = useState(true);
 
   //generate sudoku board at the beginning
   useEffect(() => {
@@ -82,32 +82,35 @@ export default function Sudoku() {
           squaresToRemove={squaresToRemove}
         />
         <div className='main-space'>
-          {showDifficulty && <div className='overlay'>
+          {showDifficultyDialog && <div className='overlay'>
             <div className='difficulty-dialog'>
               <h2>Choose your difficulty level:</h2>
               <button className='difficulty-button'
                 onClick={() => {
                   setSquaresToRemove(45);
-                  setShowDifficulty(false);
+                  setShowDifficultyDialog(false);
                 }}>
                 Easy
               </button>
               <button className='difficulty-button'
                 onClick={() => {
                   setSquaresToRemove(55);
-                  setShowDifficulty(false);
+                  setShowDifficultyDialog(false);
                 }}>
                 Medium
               </button>
               <button className='difficulty-button' onClick={() => {
                 setSquaresToRemove(64);
-                setShowDifficulty(false);
+                setShowDifficultyDialog(false);
               }}>
                 Hard
               </button>
             </div>
           </div>}
-          <SettingsRow />
+          <SettingsRow
+            squaresToRemove={squaresToRemove}
+            setSquaresToRemove={setSquaresToRemove}
+          />
           <SudokuBoard
             sudokuBoard={sudokuBoard}
             selectedSquare={selectedSquare}

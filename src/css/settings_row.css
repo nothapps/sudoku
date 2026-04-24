@@ -1,6 +1,5 @@
 .settings-row {
     font-family: "Sour Gummy", sans-serif;
-    /* font-size: 21px; */
     font-size: calc(1.8vh + 1vmin);
     color: #3C1642;
     margin-top: 15px;
@@ -12,34 +11,22 @@
 .settings-element {
     display: flex;
     flex: 1;
-    text-align: left;
     align-items: center;
     justify-content: center;
     white-space: nowrap;
 
 }
 
-.settings-element:nth-child(2) .settings-button {
-    width: 40px;
-    text-align: center;
-}
-
-.settings-element:last-child .settings-button {
-    width: 85px;
-    text-align: center;
-}
-
-
 .settings-button {
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.75vh + 1vmin);
     font-weight: 600;
-    text-align: left;
+    text-align: center;
     margin-left: 5px;
     padding: 4px;
     border: none;
     border-radius: 10px;
-    background: #e6eeb1;
+    background: #eaf3b4;
     color: #C1D736;
 }
 

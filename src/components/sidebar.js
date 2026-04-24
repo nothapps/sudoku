@@ -11,6 +11,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
         <div className='sidebar'>
             <header> SUDOKU </header>
             <SidebarButton
+                squaresToRemove={squaresToRemove}
                 value={'Restart'}
                 clickButton={() => {
                     const originalBoard = sudokuBoard.map(row =>
@@ -27,6 +28,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                 }}
             />
             <SidebarButton
+                squaresToRemove={squaresToRemove}
                 value={'New game'}
                 clickButton={() => {
                     const newBoard = generateSudokuBoard(squaresToRemove);
@@ -34,21 +36,25 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                 }}
             />
             <SidebarButton
+                squaresToRemove={squaresToRemove}
                 value={'Verify sudoku'}
                 clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
             />
             <div className="wide-screen-buttons">
                 <SidebarButton
+                    squaresToRemove={squaresToRemove}
                     value={'Show hint'}
                     clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
                 />
                 <SidebarButton
+                    squaresToRemove={squaresToRemove}
                     value={'Show mistake'}
                     clickButton={() => showMistake(sudokuBoard, setSudokuBoard)}
                 />
             </div>
             <div className="small-screen-buttons">
                 <SidebarButton
+                    squaresToRemove={squaresToRemove}
                     value={'More'}
                     clickButton={() => setIsSettingsOpen(!isSettingsOpen)}
                 />
@@ -67,15 +73,15 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                 onClick={() => setIsLightMode(!isLightMode)}>
                 {isLightMode ? <FaSun /> : <FaMoon />}
             </div>
-            {/* <FaMoon className="theme-icon"
-                onClick={() => setIsLightMode(!isLightMode)} /> */}
         </div>
     );
 }
 
-function SidebarButton({ value, clickButton }) {
+function SidebarButton({ value, clickButton, squaresToRemove }) {
+    const isDisabled = squaresToRemove === 0 ? true : false;
     return (
         <button className='sidebar-button'
+            disabled={isDisabled}
             onClick={clickButton}>
             {value}
         </button>
