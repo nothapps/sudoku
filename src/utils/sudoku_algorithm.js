@@ -110,7 +110,7 @@ export function isMoveValid(sudokuBoard, row, col, newNumber) {
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            if (blockRow + i !== row && blockCol + j !== col && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return false;
+            if ((blockRow + i !== row || blockCol + j !== col) && sudokuBoard[blockRow + i][blockCol + j].value === newNumber) return false;
         }
     }
 
@@ -123,5 +123,6 @@ export function isAnySquareEmpty(sudokuBoard) {
             if (sudokuBoard[i][j].value === null) return [i, j];
         }
     }
+
     return [null, null];
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import generateSudokuBoard from "../utils/sudoku_algorithm";
-import showHint, { showMistake } from "../utils/sidebar_functions";
+import showHint, { showMistake, verifySudoku } from "../utils/sidebar_functions";
 import { FaMoon, FaSun } from "react-icons/fa6";
 
 export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }) {
@@ -35,11 +35,17 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                     setSudokuBoard(newBoard);
                 }}
             />
-            <SidebarButton
+            {/* <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'Verify sudoku'}
-                clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
-            />
+                clickButton={() => {
+                    if (verifySudoku(sudokuBoard, setSudokuBoard) === true) console.log('yupiii');
+                    else {
+                        console.log('not yet');
+                    }
+
+                }}
+            /> */}
             <div className="wide-screen-buttons">
                 <SidebarButton
                     squaresToRemove={squaresToRemove}
@@ -50,6 +56,11 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                     squaresToRemove={squaresToRemove}
                     value={'Show mistake'}
                     clickButton={() => showMistake(sudokuBoard, setSudokuBoard)}
+                />
+                <SidebarButton
+                    squaresToRemove={squaresToRemove}
+                    value={'Options'}
+                    clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
                 />
             </div>
             <div className="small-screen-buttons">
@@ -67,6 +78,11 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
                 <DropdownButton
                     value={'Show mistake'}
                     clickButton={() => showMistake(sudokuBoard, setSudokuBoard)}
+                />
+                <DropdownButton
+                    squaresToRemove={squaresToRemove}
+                    value={'Options'}
+                    clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
                 />
             </div>
             <div className="theme-icon"

@@ -1,37 +1,23 @@
 import { useState, useEffect } from "react";
 import { FaClock, FaPencil, FaFireFlameCurved } from "react-icons/fa6";
+import { formatTime } from '../utils/settings_functions';
 
-export default function SettingsRow({ squaresToRemove, setSquaresToRemove }) {
+export default function SettingsRow({ squaresToRemove, setSquaresToRemove, time }) {
     const [isPencilModeOn, setIsPencilModeOn] = useState(false);
-    const [sudokuDifficulty, setSudokuDifficulty] = useState('?');
-    const difficultyLevels = ['Easy', 'Medium', 'Hard'];
     const removedSquares = [45, 55, 64];
-
-    useEffect(() => {
-        if (squaresToRemove === 0) return;
-        switch (squaresToRemove) {
-            case 45:
-                setSudokuDifficulty('Easy');
-                break;
-            case 55:
-                setSudokuDifficulty('Medium');
-                break;
-            case 64:
-                setSudokuDifficulty('Hard');
-                break;
-            default:
-                setSudokuDifficulty('?');
-                break;
-        }
-    }, [squaresToRemove]);
+    const difficultyLevels = new Map([
+        [45, 'Easy'],
+        [55, 'Medium'],
+        [64, 'Hard']
+    ]);
 
     return (
         <div className="settings-row">
             <div className="settings-element">
                 <FaClock className="icons" /> {'Timer:'}
                 <button className="settings-button"
-                    style={{ width: '55px' }}>
-                    {'11:00'}
+                    style={{ width: '60px' }}>
+                    {formatTime(time)}
                 </button>
             </div>
             <div className="settings-element">
@@ -49,13 +35,13 @@ export default function SettingsRow({ squaresToRemove, setSquaresToRemove }) {
                     style={{ width: '85px' }}
                     onClick={() => {
                         setSquaresToRemove((prev) => {
-                            return removedSquares[(removedSquares.indexOf(prev) + 1) % 3];
+                            const currentIndex = removedSquares.indexOf(prev);
+                            const newIndex = currentIndex === -1 ? 0 : currentIndex;
+                            return removedSquares[(newIndex + 1) % removedSquares.length];
                         });
-                        setSudokuDifficulty((prev) => {
-                            return difficultyLevels[(difficultyLevels.indexOf(prev) + 1) % 3];
-                        });
+
                     }}>
-                    {sudokuDifficulty}
+                    {difficultyLevels.get(squaresToRemove) ?? '?'}
                 </button>
             </div>
         </div >

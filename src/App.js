@@ -9,6 +9,7 @@ import Sidebar from './components/sidebar';
 import SudokuBoard from './components/sudoku_board';
 import generateSudokuBoard from './utils/sudoku_algorithm';
 import SettingsRow from './components/settings_row';
+import useTimer, { formatTime } from './utils/settings_functions';
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
@@ -25,12 +26,14 @@ export default function Sudoku() {
   );
   const [squaresToRemove, setSquaresToRemove] = useState(0);
   const [showDifficultyDialog, setShowDifficultyDialog] = useState(true);
+  const { time, startTimer, stopTimer, resetTimer } = useTimer();
 
   //generate sudoku board at the beginning
   useEffect(() => {
     if (squaresToRemove === 0) return;
     const newBoard = generateSudokuBoard(squaresToRemove);
     setSudokuBoard(newBoard);
+    startTimer();
   }, [squaresToRemove]);
 
   //selecting and filling a square
@@ -110,6 +113,7 @@ export default function Sudoku() {
           <SettingsRow
             squaresToRemove={squaresToRemove}
             setSquaresToRemove={setSquaresToRemove}
+            time={time}
           />
           <SudokuBoard
             sudokuBoard={sudokuBoard}

@@ -1,3 +1,4 @@
+import { TbRuler } from "react-icons/tb";
 import { isAnySquareEmpty } from "./sudoku_algorithm";
 
 export default function showHint(sudokuBoard, setSudokuBoard) {
@@ -76,4 +77,39 @@ function findAllMistakes(sudokuBoard, squareValue, row, col) {
     }
 
     return foundConflicts;
+}
+
+export function verifySudoku(sudokuBoard, setSudokuBoard) {
+    const emptySquare = isAnySquareEmpty(sudokuBoard);
+    // if (emptySquare[0] !== null) return false;
+    let foundConflicts = new Set();
+
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            const square = sudokuBoard[i][j];
+            if (square.isOriginal !== true && square.isHint !== true && square.value !== null) {
+                const newConflicts = findAllMistakes(sudokuBoard, square.value, i, j);
+                foundConflicts = new Set([...foundConflicts, ...newConflicts]);
+            }
+        }
+    }
+
+    if (foundConflicts.size > 1) {
+        setSudokuBoard(prevBoard => {
+            const newBoard = prevBoard.map(row => ([...row]));
+            foundConflicts.forEach(conflict => {
+                const [row, col] = conflict.split(',');
+                if (newBoard[row][col].isOriginal !== true) {
+                    newBoard[row][col] = {
+                        ...newBoard[row][col],
+                        isMistake: true
+                    };
+                }
+            });
+            return newBoard;
+        });
+        return false;
+    }
+
+    return true;
 }

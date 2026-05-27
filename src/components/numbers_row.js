@@ -20,7 +20,7 @@ function NumberButton({ value, fillSquare, selectedSquare }) {
     if (value === 100) {
         return (
             <button className='number-button' onClick={() => fillSquare(selectedSquare, null)}>
-                <FaEraser />
+                <FaEraser className='icon' />
             </button>
         );
     }

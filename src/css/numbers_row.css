@@ -5,16 +5,27 @@
     flex-direction: row;
     padding: 15px;
     border: 6px solid #3C1642;
+    gap: 5px;
+}
+
+@media (min-width: 900px) {
+    .numbers-row {
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+
 }
 
 .number-button {
     font-family: "Sour Gummy", sans-serif;
+    text-align: center;
+    font-weight: 500;
     aspect-ratio: 1;
-    border-radius: 50%;
+    border-radius: 18px;
     width: 40px;
-    margin: 2.5px;
-    font-size: calc(1.5vh + 1vmin);
+    font-size: calc(1.8vh + 1.2vmin);
     background: #faf5ec;
+    border: transparent;
     border: 3px solid #3C1642;
 }
 
@@ -26,4 +37,10 @@
     vertical-align: top;
     transform: scale(0.95);
     transition: transform 0.2s;
+}
+
+.icon {
+    font-size: calc(1.8vh + 1vmin);
+    display: flex;
+    justify-self: center;
 }
