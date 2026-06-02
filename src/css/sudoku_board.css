@@ -7,6 +7,7 @@
     border-radius: 30px;
     border: 8px solid #1D201F;
     box-sizing: content-box;
+    overflow: hidden;
 }
 
 .sudoku-row {
@@ -65,22 +66,6 @@ button.sudoku-square {
 
 .sudoku-square.active {
     background: #D5E477 !important;
-}
-
-.sudoku-row:first-child .sudoku-square:first-child {
-    border-top-left-radius: 20px;
-}
-
-.sudoku-row:first-child .sudoku-square:nth-child(9) {
-    border-top-right-radius: 20px;
-}
-
-.sudoku-row:last-child .sudoku-square:first-child {
-    border-bottom-left-radius: 20px;
-}
-
-.sudoku-row:last-child .sudoku-square:nth-child(9) {
-    border-bottom-right-radius: 20px;
 }
 
 .sudoku-square:nth-child(3n) {

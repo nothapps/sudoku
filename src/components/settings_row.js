@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaClock, FaPencil, FaFireFlameCurved } from "react-icons/fa6";
 import { formatTime } from '../utils/settings_functions';
 
@@ -10,6 +10,26 @@ export default function SettingsRow({ squaresToRemove, setSquaresToRemove, time 
         [55, 'Medium'],
         [64, 'Hard']
     ]);
+    const timeoutRef = useRef(null);
+    const [tempSquares, setTempSquares] = useState(squaresToRemove);
+
+    const handleDifficultyClick = () => {
+        let nextSquares;
+        const currentIndex = removedSquares.indexOf(squaresToRemove);
+        const newIndex = currentIndex === -1 ? 0 : currentIndex;
+        nextSquares = removedSquares[(newIndex + 1) % removedSquares.length];
+
+        setTempSquares(nextSquares);
+
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            setSquaresToRemove(nextSquares);
+        }, 400);
+    };
+
+    useEffect(() => {
+        setTempSquares(squaresToRemove);
+    }, [squaresToRemove]);
 
     return (
         <div className="settings-row">
@@ -33,14 +53,7 @@ export default function SettingsRow({ squaresToRemove, setSquaresToRemove, time 
                 {'Difficulty:'}
                 <button className="settings-button"
                     style={{ width: '85px' }}
-                    onClick={() => {
-                        setSquaresToRemove((prev) => {
-                            const currentIndex = removedSquares.indexOf(prev);
-                            const newIndex = currentIndex === -1 ? 0 : currentIndex;
-                            return removedSquares[(newIndex + 1) % removedSquares.length];
-                        });
-
-                    }}>
+                    onClick={handleDifficultyClick}>
                     {difficultyLevels.get(squaresToRemove) ?? '?'}
                 </button>
             </div>

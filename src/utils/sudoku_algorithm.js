@@ -16,9 +16,9 @@ export default function generateSudokuBoard(squaresToRemove) {
         const col = Math.floor(Math.random() * 9);
 
         if (newBoard[row][col].value !== null) {
+            const prevValue = newBoard[row][col].value;
             newBoard[row][col].value = null;
             newBoard[row][col].isOriginal = false;
-            const prevValue = newBoard[row][col].value;
 
             const testBoard = newBoard.map(row =>
                 row.map(square => ({

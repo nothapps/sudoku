@@ -72,6 +72,10 @@
 
     }
 
+    .sidebar-button {
+        max-width: 50px;
+    }
+
     .sidebar-button-text {
         display: none;
     }

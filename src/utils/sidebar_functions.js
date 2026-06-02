@@ -1,4 +1,3 @@
-import { TbRuler } from "react-icons/tb";
 import { isAnySquareEmpty } from "./sudoku_algorithm";
 
 export default function showHint(sudokuBoard, setSudokuBoard) {

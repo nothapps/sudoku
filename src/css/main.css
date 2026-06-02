@@ -18,18 +18,7 @@ body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   position: relative;
 }
-
-/* @media (max-width: 900px) {
-  .sudoku {
-    flex-direction: column;
-  }
-
-  .main-space {
-    order: 2;
-    flex: 1;
-  }
-} */

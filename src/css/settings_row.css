@@ -2,6 +2,7 @@
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.8vh + 1vmin);
     color: #3C1642;
+    margin-top: 2px;
     gap: 10px;
     display: flex;
     justify-content: space-evenly;
