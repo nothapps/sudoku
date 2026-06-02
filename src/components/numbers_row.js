@@ -1,4 +1,3 @@
-import '../css/numbers_row.css';
 import { FaEraser } from "react-icons/fa";
 
 export default function NumbersRow({ fillSquare, selectedSquare }) {

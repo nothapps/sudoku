@@ -2,10 +2,21 @@
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.8vh + 1vmin);
     color: #3C1642;
-    margin-top: 15px;
     gap: 10px;
     display: flex;
     justify-content: space-evenly;
+}
+
+@media (max-width: 700px) {
+    .settings-row {
+        flex-direction: column;
+        gap: 5px;
+        font-size: calc(1.5vh + 1vmin);
+    }
+
+    .settings-button {
+        font-size: calc(1.5vh + 1vmin);
+    }
 }
 
 .settings-element {
@@ -28,17 +39,6 @@
     border-radius: 10px;
     background: #eaf3b4;
     color: #C1D736;
-}
-
-@media (max-width: 900px) {
-    .settings-row {
-        font-size: calc(1.5vh + 1vmin);
-    }
-
-    .settings-button {
-        font-size: calc(1.5vh + 1vmin);
-    }
-
 }
 
 .settings-button:hover {

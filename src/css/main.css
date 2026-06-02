@@ -23,7 +23,7 @@ body {
   position: relative;
 }
 
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .sudoku {
     flex-direction: column;
   }
@@ -32,4 +32,4 @@ body {
     order: 2;
     flex: 1;
   }
-}
+} */

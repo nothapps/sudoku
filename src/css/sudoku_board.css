@@ -3,8 +3,7 @@
     grid-template-rows: repeat(9, 1fr);
     grid-template-columns: repeat(9, 1fr);
     margin: 10px;
-    height: 65%;
-    max-height: 80vw;
+    width: min(70vh, 75vw);
     border-radius: 30px;
     border: 8px solid #1D201F;
     box-sizing: content-box;

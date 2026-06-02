@@ -3,17 +3,9 @@
     border-radius: 20px;
     display: flex;
     flex-direction: row;
-    padding: 15px;
+    padding: 10px;
     border: 6px solid #3C1642;
-    gap: 5px;
-}
-
-@media (min-width: 900px) {
-    .numbers-row {
-        padding-left: 45px;
-        padding-right: 45px;
-    }
-
+    gap: 2px;
 }
 
 .number-button {
@@ -21,8 +13,8 @@
     text-align: center;
     font-weight: 500;
     aspect-ratio: 1;
-    border-radius: 18px;
-    width: 40px;
+    border-radius: 15px;
+    width: min(6vh, 7.5vw);
     font-size: calc(1.8vh + 1.2vmin);
     background: #faf5ec;
     border: transparent;
