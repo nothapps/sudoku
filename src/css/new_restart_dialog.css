@@ -1,19 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
 
-.overlay {
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-}
-
-.difficulty-dialog {
+.new-restart-dialog {
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.5vh + 1vmin);
     color: #C1D736;
@@ -25,7 +12,7 @@
     border-radius: 30px;
     z-index: 1001;
     transform: translateY(-22.5%);
-    /* align-items: center; */
+    align-items: center;
     display: flex;
     flex-direction: column;
     text-shadow:
@@ -40,13 +27,13 @@
 }
 
 @media (max-width: 900px) {
-    .difficulty-dialog {
+    .new-restart-dialog {
         width: 80%;
         max-width: 60vh;
     }
 }
 
-.difficulty-button {
+.new-restart-button {
     font-family: "Sour Gummy", sans-serif;
     width: 100px;
     height: 35px;
@@ -57,30 +44,13 @@
     padding-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    align-self: center;
 }
 
-.difficulty-button:hover {
+.new-restart-button:hover {
     background-color: #e3ccee;
 }
 
-.difficulty-button:active {
-    vertical-align: top;
-    transform: scale(0.95);
-    transition: transform 0.2s;
-}
-
-.back-button {
-    font-family: "Sour Gummy", sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #3C1642;
-    align-self: end;
-    border: none;
-    background: transparent;
-}
-
-.back-button:active {
+.new-restart-button:active {
     vertical-align: top;
     transform: scale(0.95);
     transition: transform 0.2s;

@@ -14,7 +14,7 @@
     font-weight: 500;
     aspect-ratio: 1;
     border-radius: 15px;
-    width: min(6vh, 7.5vw);
+    width: min(5.5vh, 7.5vw);
     font-size: calc(1.8vh + 1.2vmin);
     background: #faf5ec;
     border: transparent;

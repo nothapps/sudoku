@@ -1,11 +1,8 @@
 import { useState } from "react";
-import generateSudokuBoard from "../utils/sudoku_algorithm";
-import showHint, { showMistake, verifySudoku } from "../utils/sidebar_functions";
+import showHint, { showMistake} from "../utils/sidebar_functions";
 import { FaMoon, FaSun, FaCirclePlus, FaLightbulb, FaGear, FaTriangleExclamation, FaArrowRotateLeft } from "react-icons/fa6";
-import { VscDebugRestart } from "react-icons/vsc";
-import { GoGear } from "react-icons/go";
 
-export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }) {
+export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, setShowRestartDialog, setShowNewGameDialog, areButtonsDisabled}) {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isLightMode, setIsLightMode] = useState(false);
 
@@ -15,44 +12,39 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'Restart'}
+                areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => {
-                    const originalBoard = sudokuBoard.map(row => row.map(square => ({
-                        ...square,
-                        value: square.isOriginal ? square.originalValue : null,
-                        originalValue: square.originalValue,
-                        isOriginal: square.isOriginal,
-                        isHint: square.isHint,
-                        isMistake: false
-                    }))
-                    );
-                    setSudokuBoard(originalBoard);
+                    setShowRestartDialog(true);
                 }}
                 icon={< FaArrowRotateLeft className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'New game'}
+                areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => {
-                    const newBoard = generateSudokuBoard(squaresToRemove);
-                    setSudokuBoard(newBoard);
+                    setShowNewGameDialog(true);
                 }}
                 icon={< FaCirclePlus className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'Show hint'}
+                areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
                 icon={< FaLightbulb className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'Show conflict'}
+                areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => showMistake(sudokuBoard, setSudokuBoard)}
                 icon={< FaTriangleExclamation className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'Options'}
+                areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
                 icon={< FaGear className="sidebar-button-icon" size={20} />}
             />
@@ -64,11 +56,11 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove }
     );
 }
 
-function SidebarButton({ value, clickButton, squaresToRemove, icon }) {
-    const isDisabled = squaresToRemove === 0 ? true : false;
+function SidebarButton({ value, clickButton, squaresToRemove, icon, areButtonsDisabled}) {
     return (
         <button className='sidebar-button'
-            disabled={isDisabled}
+            title={value}
+            disabled={areButtonsDisabled}
             onClick={clickButton}>
             {icon}
             <span className="sidebar-button-text"> {value} </span>

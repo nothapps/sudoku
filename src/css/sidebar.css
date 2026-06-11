@@ -63,13 +63,16 @@
     transition: transform 0.2s;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     .sidebar {
         font-size: calc(1vh + 1vmin);
         width: 11%;
         padding-left: 2px;
         padding-right: 2px;
+    }
 
+    .sidebar header {
+        padding-top: 10px;
     }
 
     .sidebar-button {

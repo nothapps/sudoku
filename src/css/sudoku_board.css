@@ -3,11 +3,12 @@
     grid-template-rows: repeat(9, 1fr);
     grid-template-columns: repeat(9, 1fr);
     margin: 10px;
-    width: min(70vh, 75vw);
+    width: min(80vw, 65vh); 
     border-radius: 30px;
     border: 8px solid #1D201F;
-    box-sizing: content-box;
+    box-sizing: border-box;
     overflow: hidden;
+    aspect-ratio: 1;
 }
 
 .sudoku-row {
@@ -31,7 +32,7 @@ button.sudoku-square {
     justify-content: center;
     align-items: center;
     color: #1D201F;
-    font-size: calc(2vh + 2vmin);
+    font-size: calc(1.8vh + 1.5vmin);
     border-right: 3px solid #1D201F;
     border-bottom: 3px solid #1D201F;
 }
@@ -53,14 +54,14 @@ button.sudoku-square {
 }
 
 .sudoku-square.mistake {
-    background: rgb(241, 69, 69);
+    background: rgb(233, 105, 105);
     animation: fadeToRed 0.75s ease-in-out forwards;
 }
 
 @keyframes fadeToRed {
     to {
-        color: rgb(241, 69, 69);
-        background-color: rgb(245, 177, 177);
+        color: rgb(238, 102, 102);
+        background-color: rgb(247, 194, 194);
     }
 }
 
