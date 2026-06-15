@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.difficulty-dialog {
+    font-family: "Sour Gummy", sans-serif;
+    font-size: calc(1.5vh + 1vmin);
+    color: #C1D736;
+    background: #AE8DC0;
+    border: 10px solid #3C1642;
+    padding: 20px;
+    width: 70%;
+    max-width: 80vh;
+    border-radius: 30px;
+    z-index: 1001;
+    transform: translateY(-22.5%);
+    display: flex;
+    flex-direction: column;
+    text-shadow:
+        -2px -2px 0 #3C1642,
+        2px -2px 0 #3C1642,
+        -2px 2px 0 #3C1642,
+        2px 2px 0 #3C1642,
+        -3px 0px 0 #3C1642,
+        3px 0px 0 #3C1642,
+        0px -3px 0 #3C1642,
+        0px 3px 0 #3C1642;
+}
+
+@media (max-width: 900px) {
+    .difficulty-dialog {
+        width: 80%;
+        max-width: 60vh;
+    }
+}
+
+.difficulty-dialog[open] {
+  animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.difficulty-button {
+    font-family: "Sour Gummy", sans-serif;
+    width: 100px;
+    height: 35px;
+    border-radius: 20px;
+    border: 3px solid #3C1642;
+    margin: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-self: center;
+}
+
+.difficulty-button:hover {
+    background-color: #e3ccee;
+}
+
+.difficulty-button:active {
+    vertical-align: top;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+}
+
+.back-button {
+    font-family: "Sour Gummy", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3C1642;
+    align-self: end;
+    border: none;
+    background: transparent;
+}
+
+.back-button:active {
+    vertical-align: top;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+}
