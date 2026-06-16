@@ -1,9 +1,7 @@
-import { useState} from "react";
 import { FaClock, FaPencil, FaFireFlameCurved } from "react-icons/fa6";
 import { formatTime } from '../utils/additional_settings_functions';
 
-export default function SettingsRow({ squaresToRemove, setSquaresToRemove, time, setShowDifficultyDialog}) {
-    const [isPencilModeOn, setIsPencilModeOn] = useState(false);
+export default function AdditionalSettingsRow({ squaresToRemove, setSquaresToRemove, time, setShowDifficultyDialog, isPencilModeOn, setIsPencilModeOn }) {
     const difficultyLevels = new Map([
         [40, 'Easy'],
         [50, 'Medium'],
