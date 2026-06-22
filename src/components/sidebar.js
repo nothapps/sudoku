@@ -1,9 +1,9 @@
 import { useState } from "react";
-import showHint, { showMistake } from "../utils/sidebar_functions";
+import showHint from "../utils/sidebar_functions";
+import showOneConflict, { showAllConflicts } from '../utils/show_conflicts_functions';
 import { FaMoon, FaSun, FaCirclePlus, FaLightbulb, FaGear, FaTriangleExclamation, FaArrowRotateLeft } from "react-icons/fa6";
 
-export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, setShowRestartDialog, setShowNewGameDialog, areButtonsDisabled, setSelectedSquare }) {
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, toggleOverlay, areButtonsDisabled, setSelectedSquare }) {
     const [isLightMode, setIsLightMode] = useState(false);
 
     return (
@@ -13,14 +13,14 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, 
                 squaresToRemove={squaresToRemove}
                 value={'Restart'}
                 areButtonsDisabled={areButtonsDisabled}
-                clickButton={() => setShowRestartDialog(true)}
+                clickButton={() => toggleOverlay('restart')}
                 icon={< FaArrowRotateLeft className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
                 squaresToRemove={squaresToRemove}
                 value={'New game'}
                 areButtonsDisabled={areButtonsDisabled}
-                clickButton={() => setShowNewGameDialog(true)}
+                clickButton={() => toggleOverlay('newGame')}
                 icon={< FaCirclePlus className="sidebar-button-icon" size={20} />}
             />
             <SidebarButton
@@ -39,7 +39,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, 
                 areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => {
                     setSelectedSquare({ row: null, col: null });
-                    showMistake(sudokuBoard, setSudokuBoard);
+                    showAllConflicts(sudokuBoard, setSudokuBoard);
                 }}
                 icon={< FaTriangleExclamation className="sidebar-button-icon" size={20} />}
             />
@@ -47,7 +47,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, 
                 squaresToRemove={squaresToRemove}
                 value={'Options'}
                 areButtonsDisabled={areButtonsDisabled}
-                clickButton={() => showHint(sudokuBoard, setSudokuBoard)}
+                clickButton={() => toggleOverlay('settings')}
                 icon={< FaGear className="sidebar-button-icon" size={20} />}
             />
             <div className="theme-icon"

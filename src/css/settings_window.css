@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+.settings-window {
+    font-family: "Sour Gummy", sans-serif;
+    font-size: calc(1.5vh + 1vmin);
+    background: #AE8DC0;
+    border: 10px solid #3C1642;
+    padding: 20px;
+    width: 70%;
+    max-width: 80vh;
+    border-radius: 30px;
+    z-index: 1001;
+    transform: translateY(-22.5%);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+@media (max-width: 900px) {
+    .settings-window {
+        width: 84%;
+        max-width: 60vh;
+    }
+}
+
+.title-text {
+    color: #C1D736;
+    text-shadow:
+        -2px -2px 0 #3C1642,
+        2px -2px 0 #3C1642,
+        -2px 2px 0 #3C1642,
+        2px 2px 0 #3C1642,
+        -3px 0px 0 #3C1642,
+        3px 0px 0 #3C1642,
+        0px -3px 0 #3C1642,
+        0px 3px 0 #3C1642;
+    align-self: center;
+}
+
+.settings-text {
+    color: #3C1642;
+    display: flex;
+    align-items: center;
+}
+
+.settings-checkbox {
+    accent-color: #C1D736;
+    margin-right: 5px;
+    margin-left: 0;
+}
+
+.settings-button {
+    font-family: "Sour Gummy", sans-serif;
+    font-size: calc(1.5vh + 1vmin);
+    font-weight: 600;
+    /* color: #C1D736; */
+    color: #AE8DC0;
+    border-radius: 10px;
+    background: #3C1642;
+    border: none;
+    margin-left: 5px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.settings-icons {
+    font-size: calc(1.5vh + 1vmin);
+    margin-right: 5px;
+}

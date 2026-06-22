@@ -20,7 +20,7 @@ export default function SudokuBoard({ sudokuBoard, selectedSquare, selectSquare 
                                     pencil_notes={square.pencil_notes}
                                     isSquareClicked={selectedSquare.row === row && selectedSquare.col === col}
                                     onSquareClick={() => selectSquare(row, col)}
-                                    isMistake={square.isMistake}
+                                    isConflict={square.isConflict}
                                     isHint={square.isHint}
                                 />
                             )
@@ -40,11 +40,11 @@ function UntouchableSquare({ value }) {
     );
 }
 
-function NormalSquare({ value, pencil_notes, isSquareClicked, onSquareClick, isMistake, isHint }) {
+function NormalSquare({ value, pencil_notes, isSquareClicked, onSquareClick, isConflict, isHint }) {
     if (pencil_notes.length > 0) {
         return (
             <button
-                className={`sudoku-square ${'pencil-mode'} ${isSquareClicked ? 'active' : ''} ${isMistake ? 'mistake' : ''} ${isHint ? 'hint' : ''}`}
+                className={`sudoku-square ${'pencil-mode'} ${isSquareClicked ? 'active' : ''} ${isConflict ? 'mistake' : ''} ${isHint ? 'hint' : ''}`}
                 onClick={onSquareClick}>
                 {Array(9).fill().map((_, index) => {
                     const value = index + 1;
@@ -60,7 +60,7 @@ function NormalSquare({ value, pencil_notes, isSquareClicked, onSquareClick, isM
     }
 
     return (
-        <button className={`sudoku-square ${isSquareClicked ? 'active' : ''} ${isMistake ? 'mistake' : ''} ${isHint ? 'hint' : ''}`}
+        <button className={`sudoku-square ${isSquareClicked ? 'active' : ''} ${isConflict ? 'mistake' : ''} ${isHint ? 'hint' : ''}`}
             onClick={onSquareClick}>
             {value}
         </button>

@@ -1,4 +1,4 @@
-.settings-row {
+.add-settings-row {
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.8vh + 1vmin);
     color: #3C1642;
@@ -9,18 +9,18 @@
 }
 
 @media (max-width: 700px) {
-    .settings-row {
+    .add-settings-row {
         flex-direction: column;
         gap: 5px;
         font-size: calc(1.5vh + 1vmin);
     }
 
-    .settings-button {
+    .add-settings-button {
         font-size: calc(1.5vh + 1vmin);
     }
 }
 
-.settings-element {
+.add-settings-element {
     display: flex;
     flex: 1;
     align-items: center;
@@ -29,7 +29,7 @@
 
 }
 
-.settings-button {
+.add-settings-button {
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.75vh + 1vmin);
     font-weight: 600;
@@ -46,11 +46,6 @@
     width: max-content !important;
 }
 
-.settings-button:hover {
+.add-settings-button:hover {
     color: #8e9e28;
-}
-
-.icons {
-    font-size: calc(1.5vh + 1vmin);
-    margin-right: 5px;
 }

@@ -1,13 +1,13 @@
-export default function DifficultyDialog({ visible, squaresToRemove, setSquaresToRemove, closeDialog, startTimer, resetTimer}) {
+export default function DifficultyDialog({ visible, squaresToRemove, changeGameSetting, closeDialog, startTimer, resetTimer }) {
   if (!visible) return null;
 
   const handleClick = (squares) => {
     if (squares === squaresToRemove) {
-        closeDialog();
-        startTimer();
-        return;
+      closeDialog();
+      startTimer();
+      return;
     }
-    setSquaresToRemove(squares);
+    changeGameSetting('squaresToRemove', squares);
     closeDialog();
     resetTimer();
     startTimer();
@@ -17,26 +17,26 @@ export default function DifficultyDialog({ visible, squaresToRemove, setSquaresT
     <div className='overlay'>
       <div className='difficulty-dialog'>
         <h2>Choose your difficulty level:</h2>
-        <button className='difficulty-button' 
-        onClick={() => handleClick(40)}>
-            Easy
-            </button>
-
-        <button className='difficulty-button' 
-        onClick={() => handleClick(50)}>
-            Medium
-            </button>
-
-        <button className='difficulty-button' 
-        onClick={() => handleClick(60)}>
-            Hard
+        <button className='difficulty-button'
+          onClick={() => handleClick(40)}>
+          Easy
         </button>
-        
+
+        <button className='difficulty-button'
+          onClick={() => handleClick(50)}>
+          Medium
+        </button>
+
+        <button className='difficulty-button'
+          onClick={() => handleClick(60)}>
+          Hard
+        </button>
+
         {squaresToRemove > 0 && (
-          <button className='back-button' 
-          onClick={() => { 
-            closeDialog();
-            startTimer(); 
+          <button className='back-button'
+            onClick={() => {
+              closeDialog();
+              startTimer();
             }}>
             Back
           </button>
@@ -46,7 +46,7 @@ export default function DifficultyDialog({ visible, squaresToRemove, setSquaresT
   );
 }
 
-export function RestartDialog({ visible, restartGame, closeDialog, startTimer, resetTimer}) {
+export function RestartDialog({ visible, restartGame, closeDialog, startTimer, resetTimer }) {
   if (!visible) return null;
 
   const handleClick = () => {
@@ -61,22 +61,22 @@ export function RestartDialog({ visible, restartGame, closeDialog, startTimer, r
       <div className='new-restart-dialog'>
         <h2>Do you want to restart your game?</h2>
         <button className='new-restart-button'
-            onClick={() => handleClick()}>
-                Yes
+          onClick={() => handleClick()}>
+          Yes
         </button>
         <button className='new-restart-button'
-        onClick={() => {
+          onClick={() => {
             closeDialog();
             startTimer();
-            }}>
-            No
+          }}>
+          No
         </button>
       </div>
     </div>
   );
 }
 
-export function NewGameDialog({ visible, generateNewGame, closeDialog, startTimer, resetTimer}) {
+export function NewGameDialog({ visible, generateNewGame, closeDialog, startTimer, resetTimer }) {
   if (!visible) return null;
 
   const handleClick = () => {
@@ -91,15 +91,15 @@ export function NewGameDialog({ visible, generateNewGame, closeDialog, startTime
       <div className='new-restart-dialog'>
         <h2>Do you want to start a new game?</h2>
         <button className='new-restart-button'
-            onClick={() => handleClick()}>
-                Yes
+          onClick={() => handleClick()}>
+          Yes
         </button>
         <button className='new-restart-button'
-        onClick={() => {
+          onClick={() => {
             closeDialog();
             startTimer();
-            }}>
-            No
+          }}>
+          No
         </button>
       </div>
     </div>

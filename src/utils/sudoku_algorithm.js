@@ -5,11 +5,10 @@ export default function generateSudokuBoard(squaresToRemove) {
     fillRawBoard(rawBoard);
     const solvedBoard = rawBoard.map(row => [...row]);
     let failedAttempts = 0;
-    const maxFailedAttempts = 35;
+    const maxFailedAttempts = 30;
 
     // removing squares
     while (squaresToRemove > 0 && failedAttempts < maxFailedAttempts) {
-        // attempts++;
         const row = Math.floor(Math.random() * 9);
         const col = Math.floor(Math.random() * 9);
 
@@ -34,9 +33,10 @@ export default function generateSudokuBoard(squaresToRemove) {
     return rawBoard.map((row, rowIndex) => row.map((value, colIndex) => ({
         value: value === 0 ? null : value,
         originalValue: solvedBoard[rowIndex][colIndex],
+        pencil_notes: [],
         isOriginal: value !== 0,
         isHint: false,
-        isMistake: false
+        isConflict: false
     })));
 }
 

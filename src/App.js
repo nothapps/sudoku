@@ -5,6 +5,7 @@ import './css/dialog_windows/difficulty_dialog.css';
 import './css/numbers_row.css';
 import './css/additional_settings_row.css';
 import './css/dialog_windows/new_restart_dialog.css';
+import './css/settings_window.css';
 import { useCallback, useState, useEffect } from 'react';
 import NumbersRow from './components/numbers_row';
 import Sidebar from './components/sidebar';
@@ -13,6 +14,7 @@ import generateSudokuBoard from './utils/sudoku_algorithm';
 import AdditionalSettingsRow from './components/additonal_settings_row';
 import useTimer from './utils/additional_settings_functions';
 import DifficultyDialog, { NewGameDialog, RestartDialog } from './components/dialog_windows';
+import SettingsWindow from './components/settings_window';
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
@@ -24,34 +26,41 @@ export default function Sudoku() {
         pencil_notes: [],
         isOriginal: false,
         isHint: false,
-        isMistake: false
+        isConflict: false
       }))
     )
   );
-  const [squaresToRemove, setSquaresToRemove] = useState(0);
-  const [isPencilModeOn, setIsPencilModeOn] = useState(false);
-  const [showDifficultyDialog, setShowDifficultyDialog] = useState(true);
-  const [showRestartDialog, setShowRestartDialog] = useState(false);
-  const [showNewGameDialog, setShowNewGameDialog] = useState(false);
-  const areButtonsDisabled = showDifficultyDialog || showRestartDialog || showNewGameDialog;
+  const [activeOverlays, setActiveOverlays] = useState({
+    difficulty: true,
+    restart: false,
+    newGame: false,
+    settings: false,
+  });
+  const areButtonsDisabled = Object.values(activeOverlays).some(Boolean);
+  const [gameSettings, setGameSettings] = useState({
+    squaresToRemove: 0,
+    isPencilModeOn: false,
+    conflictIndex: 0,
+    isFillHint: false,
+  });
   const { time, startTimer, stopTimer, resetTimer } = useTimer();
 
   //generate sudoku board at the beginning
   useEffect(() => {
-    if (squaresToRemove === 0) return;
+    if (gameSettings.squaresToRemove === 0) return;
 
-    const newBoard = generateSudokuBoard(squaresToRemove);
+    const newBoard = generateSudokuBoard(gameSettings.squaresToRemove);
     setSudokuBoard(newBoard);
 
     startTimer();
     setSelectedSquare({ row: null, col: null });
-  }, [squaresToRemove]);
+  }, [gameSettings.squaresToRemove]);
 
   //stop timer when a dialog window pops up
   useEffect(() => {
-    if (showDifficultyDialog || showRestartDialog || showNewGameDialog)
+    if (Object.values(activeOverlays).some(Boolean))
       stopTimer();
-  }, [showDifficultyDialog, showRestartDialog, showNewGameDialog]);
+  }, [activeOverlays]);
 
   //selecting and filling a square
   const selectSquare = (row, col) => {
@@ -68,16 +77,17 @@ export default function Sudoku() {
 
     if (pressedKey >= '1' && pressedKey <= '9') {
       const value = parseInt(pressedKey);
-      fillSquare(selectedSquare, value, isPencilModeOn);
+      fillSquare(selectedSquare, value, gameSettings.isPencilModeOn);
     } else if (pressedKey === 'Backspace' || pressedKey === 'Delete') {
-      fillSquare(selectedSquare, null, isPencilModeOn);
+      fillSquare(selectedSquare, null, gameSettings.isPencilModeOn);
     }
-  }, [selectedSquare, isPencilModeOn]);
+  }, [selectedSquare, gameSettings.isPencilModeOn]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleKeyPress]);
+
 
   function fillSquare(selectedSquare, value, isPencilModeOn) {
     if (selectedSquare.row === null || selectedSquare.col === null) return;
@@ -92,7 +102,7 @@ export default function Sudoku() {
         if (value === null) {
           square.value = value;
           square.pencil_notes = [];
-          square.isMistake = false;
+          square.isConflict = false;
         }
         const pencil_notes = square.pencil_notes || [];
         if (pencil_notes.includes(value)) {
@@ -104,12 +114,26 @@ export default function Sudoku() {
       else {
         square.value = value;
         square.pencil_notes = [];
-        square.isMistake = false;
+        square.isConflict = false;
       }
 
       return newBoard;
     });
   }
+
+  const changeGameSetting = (setting, value) => {
+    setGameSettings(prev => ({
+      ...prev,
+      [setting]: value
+    }));
+  };
+
+  const toggleOverlay = (window) => {
+    setActiveOverlays((prev) => ({
+      ...prev,
+      [window]: !prev[window]
+    }));
+  };
 
   return (
     <>
@@ -117,23 +141,22 @@ export default function Sudoku() {
         <Sidebar
           sudokuBoard={sudokuBoard}
           setSudokuBoard={setSudokuBoard}
-          squaresToRemove={squaresToRemove}
-          setShowRestartDialog={setShowRestartDialog}
-          setShowNewGameDialog={setShowNewGameDialog}
+          squaresToRemove={gameSettings.squaresToRemove}
+          toggleOverlay={toggleOverlay}
           areButtonsDisabled={areButtonsDisabled}
           setSelectedSquare={setSelectedSquare}
         />
         <div className='main-space'>
           <DifficultyDialog
-            visible={showDifficultyDialog}
-            squaresToRemove={squaresToRemove}
-            setSquaresToRemove={setSquaresToRemove}
-            closeDialog={() => setShowDifficultyDialog(false)}
+            visible={activeOverlays.difficulty}
+            squaresToRemove={gameSettings.squaresToRemove}
+            changeGameSetting={changeGameSetting}
+            closeDialog={() => toggleOverlay('difficulty')}
             startTimer={startTimer}
             resetTimer={resetTimer}
           />
           <RestartDialog
-            visible={showRestartDialog}
+            visible={activeOverlays.restart}
             restartGame={() => {
               const originalBoard = sudokuBoard.map(row => row.map(square => ({
                 ...square,
@@ -142,32 +165,39 @@ export default function Sudoku() {
                 pencil_notes: [],
                 isOriginal: square.isOriginal,
                 isHint: square.isHint,
-                isMistake: false
+                isConflict: false
               }))
               );
               setSudokuBoard(originalBoard);
             }}
-            closeDialog={() => setShowRestartDialog(false)}
+            closeDialog={() => toggleOverlay('restart')}
             startTimer={startTimer}
             resetTimer={resetTimer}
           />
           <NewGameDialog
-            visible={showNewGameDialog}
+            visible={activeOverlays.newGame}
             generateNewGame={() => {
-              const newBoard = generateSudokuBoard(squaresToRemove);
+              const newBoard = generateSudokuBoard(gameSettings.squaresToRemove);
               setSudokuBoard(newBoard);
             }}
-            closeDialog={() => setShowNewGameDialog(false)}
+            closeDialog={() => toggleOverlay('newGame')}
+            startTimer={startTimer}
+            resetTimer={resetTimer}
+          />
+          <SettingsWindow
+            visible={activeOverlays.settings}
+            closeWindow={() => toggleOverlay('settings')}
+            gameSettings={gameSettings}
+            changeGameSetting={changeGameSetting}
             startTimer={startTimer}
             resetTimer={resetTimer}
           />
           <AdditionalSettingsRow
-            squaresToRemove={squaresToRemove}
-            setSquaresToRemove={setSquaresToRemove}
+            squaresToRemove={gameSettings.squaresToRemove}
+            gameSettings={gameSettings}
+            changeGameSetting={changeGameSetting}
+            openDifficultyDialog={() => toggleOverlay('difficulty')}
             time={time}
-            setShowDifficultyDialog={setShowDifficultyDialog}
-            isPencilModeOn={isPencilModeOn}
-            setIsPencilModeOn={setIsPencilModeOn}
           />
           <SudokuBoard
             sudokuBoard={sudokuBoard}
@@ -177,7 +207,7 @@ export default function Sudoku() {
           <NumbersRow
             fillSquare={fillSquare}
             selectedSquare={selectedSquare}
-            isPencilModeOn={isPencilModeOn} />
+            isPencilModeOn={gameSettings.isPencilModeOn} />
         </div>
       </div>
     </>
