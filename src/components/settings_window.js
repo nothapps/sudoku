@@ -1,6 +1,6 @@
 import { FaLightbulb, FaTriangleExclamation } from "react-icons/fa6";
 
-export default function SettingsWindow({ visible, closeWindow, gameSettings, changeGameSettings, startTimer, resetTimer }) {
+export default function SettingsWindow({ visible, closeWindow, gameSettings, changeGameSetting, startTimer, resetTimer }) {
     const conflictLevels =
         ['highlight one conflict - button',
             'highlight all conflicts - button',
@@ -19,7 +19,7 @@ export default function SettingsWindow({ visible, closeWindow, gameSettings, cha
                     <FaLightbulb className="settings-icons" />
                     Hints:
                     <button className="settings-button"
-                        onClick={() => changeGameSettings(!gameSettings.isFillHint)}>
+                        onClick={() => changeGameSetting('isFillHint', !gameSettings.isFillHint)}>
                         {gameSettings.isFillHint ? 'reveal one random square' : 'show subtle hint'}
                     </button>
                 </div>
@@ -29,7 +29,7 @@ export default function SettingsWindow({ visible, closeWindow, gameSettings, cha
                     <button className="settings-button"
                         onClick={() => {
                             const nextIndex = (gameSettings.conflictIndex + 1) % conflictLevels.length;
-                            changeGameSettings('conflictIndex', nextIndex);
+                            changeGameSetting('conflictIndex', nextIndex);
                         }}>
                         {conflictLevels[gameSettings.conflictIndex]}
                     </button>
