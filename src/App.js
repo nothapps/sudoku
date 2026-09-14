@@ -6,6 +6,7 @@ import './css/numbers_row.css';
 import './css/additional_settings_row.css';
 import './css/dialog_windows/new_restart_dialog.css';
 import './css/settings_window.css';
+import './css/dialog_windows/win_dialog.css';
 import { useCallback, useState, useEffect } from 'react';
 import NumbersRow from './components/numbers_row';
 import Sidebar from './components/sidebar';
@@ -13,8 +14,11 @@ import SudokuBoard from './components/sudoku_board';
 import generateSudokuBoard from './utils/sudoku_algorithm';
 import AdditionalSettingsRow from './components/additonal_settings_row';
 import useTimer from './utils/additional_settings_functions';
-import DifficultyDialog, { NewGameDialog, RestartDialog } from './components/dialog_windows';
+import DifficultyDialog, { NewGameDialog, RestartDialog, WinDialog} from './components/dialog_windows';
 import SettingsWindow from './components/settings_window';
+import { showConflictsAutomatically, findAllConflictsOnBoard, updateSudokuBoard } from './utils/show_conflicts_functions';
+import { verifySudoku } from './utils/verify_sudoku_function';
+
 
 export default function Sudoku() {
   const [selectedSquare, setSelectedSquare] = useState({ row: null, col: null });
@@ -35,6 +39,7 @@ export default function Sudoku() {
     restart: false,
     newGame: false,
     settings: false,
+    win: false
   });
   const areButtonsDisabled = Object.values(activeOverlays).some(Boolean);
   const [gameSettings, setGameSettings] = useState({
@@ -61,6 +66,14 @@ export default function Sudoku() {
     if (Object.values(activeOverlays).some(Boolean))
       stopTimer();
   }, [activeOverlays]);
+
+  //win detection
+  useEffect(() => {
+    if(verifySudoku(sudokuBoard)) {
+      toggleOverlay('win');
+      stopTimer();
+    }
+  }, [sudokuBoard, stopTimer]);
 
   //selecting and filling a square
   const selectSquare = (row, col) => {
@@ -117,6 +130,11 @@ export default function Sudoku() {
         square.isConflict = false;
       }
 
+      //show conflicts if auto-detection is enabled
+      if (gameSettings.conflictIndex === 2) {
+        showConflictsAutomatically(newBoard);
+      }
+
       return newBoard;
     });
   }
@@ -126,6 +144,13 @@ export default function Sudoku() {
       ...prev,
       [setting]: value
     }));
+
+    if (setting === 'conflictIndex' && value === 2) {
+      showConflictsAutomatically(sudokuBoard);
+    } else {
+      const allConflicts = findAllConflictsOnBoard(sudokuBoard);
+      updateSudokuBoard(setSudokuBoard, allConflicts, false);
+    }
   };
 
   const toggleOverlay = (window) => {
@@ -133,6 +158,25 @@ export default function Sudoku() {
       ...prev,
       [window]: !prev[window]
     }));
+  };
+
+  function generateNewGame() {
+    const newBoard = generateSudokuBoard(gameSettings.squaresToRemove);
+              setSudokuBoard(newBoard);
+  };
+
+  function restartGame() {
+    const originalBoard = sudokuBoard.map(row => row.map(square => ({
+                ...square,
+                value: square.isOriginal ? square.originalValue : null,
+                originalValue: square.originalValue,
+                pencil_notes: [],
+                isOriginal: square.isOriginal,
+                isHint: false,
+                isConflict: false
+              }))
+              );
+              setSudokuBoard(originalBoard);
   };
 
   return (
@@ -145,8 +189,21 @@ export default function Sudoku() {
           toggleOverlay={toggleOverlay}
           areButtonsDisabled={areButtonsDisabled}
           setSelectedSquare={setSelectedSquare}
+          conflictIndex={gameSettings.conflictIndex}
         />
         <div className='main-space'>
+          <WinDialog
+            visible={activeOverlays.win}
+            closeDialog={() => toggleOverlay('win')}
+            generateNewGame={generateNewGame}
+            restartGame={restartGame}
+            time={time}
+            difficulty={{
+              40: 'Easy',
+              50: 'Medium',
+              60: 'Hard'
+            }[gameSettings.squaresToRemove]}
+          />
           <DifficultyDialog
             visible={activeOverlays.difficulty}
             squaresToRemove={gameSettings.squaresToRemove}
@@ -157,29 +214,14 @@ export default function Sudoku() {
           />
           <RestartDialog
             visible={activeOverlays.restart}
-            restartGame={() => {
-              const originalBoard = sudokuBoard.map(row => row.map(square => ({
-                ...square,
-                value: square.isOriginal ? square.originalValue : null,
-                originalValue: square.originalValue,
-                pencil_notes: [],
-                isOriginal: square.isOriginal,
-                isHint: square.isHint,
-                isConflict: false
-              }))
-              );
-              setSudokuBoard(originalBoard);
-            }}
+            restartGame={restartGame}
             closeDialog={() => toggleOverlay('restart')}
             startTimer={startTimer}
             resetTimer={resetTimer}
           />
           <NewGameDialog
             visible={activeOverlays.newGame}
-            generateNewGame={() => {
-              const newBoard = generateSudokuBoard(gameSettings.squaresToRemove);
-              setSudokuBoard(newBoard);
-            }}
+            generateNewGame={generateNewGame}
             closeDialog={() => toggleOverlay('newGame')}
             startTimer={startTimer}
             resetTimer={resetTimer}
@@ -203,6 +245,7 @@ export default function Sudoku() {
             sudokuBoard={sudokuBoard}
             selectedSquare={selectedSquare}
             selectSquare={selectSquare}
+            animateConflicts={gameSettings.conflictIndex !== 2}
           />
           <NumbersRow
             fillSquare={fillSquare}

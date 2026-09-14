@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
 
-.new-restart-dialog {
+.win-dialog {
     font-family: "Sour Gummy", sans-serif;
     font-size: calc(1.5vh + 1vmin);
     color: #C1D736;
@@ -27,13 +27,34 @@
 }
 
 @media (max-width: 900px) {
-    .new-restart-dialog {
+    .win-dialog {
         width: 80%;
         max-width: 60vh;
     }
 }
 
-.new-restart-button {
+.win-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.win-smaller-text {
+    text-shadow: none;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+.win-info p {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.win-button {
     font-family: "Sour Gummy", sans-serif;
     width: 100px;
     height: 35px;
@@ -46,12 +67,17 @@
     padding-right: 10px;
 }
 
-.new-restart-button:hover {
+.win-button:hover {
     background-color: #e3ccee;
 }
 
-.new-restart-button:active {
+.win-button:active {
     vertical-align: top;
     transform: scale(0.95);
     transition: transform 0.2s;
+}
+
+.win-icons {
+    font-size: calc(5vh + 1vmin);
+    margin: 10px;
 }

@@ -121,3 +121,4 @@ export function isAnyRawSquareEmpty(sudokuBoard) {
 
     return [null, null];
 }
+

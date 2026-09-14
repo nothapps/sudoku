@@ -78,15 +78,30 @@ button.sudoku-square.pencil-mode .pencil-note {
     }
 }
 
-.sudoku-square.mistake {
-    background: rgb(233, 105, 105);
-    animation: fadeToWhite 5s ease-in-out forwards;
+.sudoku-square.conflict {
+    color: rgb(238, 102, 102);
+    background: rgb(247, 194, 194);
 }
 
-@keyframes fadeToRed {
-    to {
+.sudoku-board.animate-conflicts .sudoku-square.conflict {
+    animation: fadeToRedThenWhite 8s ease-in-out forwards;
+}
+
+@keyframes fadeToRedThenWhite {
+
+      0% {
+        color: #1D201F;
+        background-color: transparent;
+    }
+
+    30% {
         color: rgb(238, 102, 102);
         background-color: rgb(247, 194, 194);
+    }
+
+    100% {
+        color: #1D201F;
+        background-color: transparent;
     }
 }
 

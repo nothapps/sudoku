@@ -1,10 +1,14 @@
 import { useState } from "react";
 import showHint from "../utils/sidebar_functions";
-import showOneConflict, { showAllConflicts } from '../utils/show_conflicts_functions';
+import { showOneConflict, showAllConflicts } from '../utils/show_conflicts_functions';
 import { FaMoon, FaSun, FaCirclePlus, FaLightbulb, FaGear, FaTriangleExclamation, FaArrowRotateLeft } from "react-icons/fa6";
 
-export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, toggleOverlay, areButtonsDisabled, setSelectedSquare }) {
+export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, toggleOverlay, areButtonsDisabled, setSelectedSquare, conflictIndex }) {
     const [isLightMode, setIsLightMode] = useState(false);
+    const showConflictFunction = {
+        0: () => showOneConflict(sudokuBoard, setSudokuBoard),
+        1: () => showAllConflicts(sudokuBoard, setSudokuBoard),
+    };
 
     return (
         <div className='sidebar'>
@@ -39,7 +43,7 @@ export default function Sidebar({ sudokuBoard, setSudokuBoard, squaresToRemove, 
                 areButtonsDisabled={areButtonsDisabled}
                 clickButton={() => {
                     setSelectedSquare({ row: null, col: null });
-                    showAllConflicts(sudokuBoard, setSudokuBoard);
+                    showConflictFunction[conflictIndex]();
                 }}
                 icon={< FaTriangleExclamation className="sidebar-button-icon" size={20} />}
             />
